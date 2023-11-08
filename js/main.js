@@ -14,8 +14,8 @@ var gamePrefs=
 var config = 
 {
     type: Phaser.AUTO,
-    width: 128,
-    height: 112,
+    width: 320,
+    height: 280,
     scene:[gamePlay], //array con las escenas
     render:
     {
@@ -31,7 +31,7 @@ var config =
         default:'arcade',
         arcade:
         {
-            gravity:{y:200}
+            gravity:{y:400}
         }
     }
 };
