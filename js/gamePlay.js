@@ -7,14 +7,14 @@ class gamePlay extends Phaser.Scene
 
     preload()
     {
-        this.cameras.main.setBackgroundColor("112"); 
+        this.cameras.main.setBackgroundColor("255"); 
         this.load.setPath('assets/img');
-        this.load.image('samus','image.png');
+        this.load.image('samus','samus_idle.png');
     }
 
     create()
     {
-        this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus').setScale(2);
+        this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus');
         this.player.setCollideWorldBounds(true);
 
         this.cursores = this.input.keyboard.createCursorKeys();
@@ -38,7 +38,7 @@ class gamePlay extends Phaser.Scene
         }
         if(this.cursores.space.isDown)
         {
-            this.player.y -= 4;
+            this.player.y -= 2;
         }
         
     }

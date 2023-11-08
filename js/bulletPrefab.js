@@ -11,7 +11,6 @@ class bulletPrefab extends Phaser.GameObjects.Sprite
 
     deActivate()
     {
-        this.nivel.createExplosion(this);
         this.setActive(false);
         this.x = -100;
         //this.setTexture('explosionAnim');
