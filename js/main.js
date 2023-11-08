@@ -1,6 +1,7 @@
 var gamePrefs=
 {
-    NAVE_SPEED:2,
+    Player_SPEED:1,
+    PLAYER_JUMP: 5,
     BULLET_SPEED:-100,
     ENEMY_BULLET_SPEED:100,
     ENEMY_SPEED:20,
@@ -14,7 +15,7 @@ var config =
 {
     type: Phaser.AUTO,
     width: 128,
-    height: 256,
+    height: 112,
     scene:[gamePlay], //array con las escenas
     render:
     {
@@ -30,7 +31,7 @@ var config =
         default:'arcade',
         arcade:
         {
-            gravity:{y:0}
+            gravity:{y:200}
         }
     }
 };
