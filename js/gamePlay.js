@@ -17,14 +17,15 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_idle','samus_idle.png',{frameWidth:20,frameHeight:32});
         this.load.spritesheet('samus_walk','samus_walk.png',{frameWidth:22,frameHeight:32});
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
+        this.load.image('plataforma','platform.png');
 
         this.isjumping = false;
 
+        
     }
 
     create()
     {
-        this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus').setScale(2);
         this.bullet = this.physics.add.sprite(config.width/2,config.height,'bullet').setScale(1);
 
         //this.map.createLayer('capa de patrones 1', tileset);
@@ -32,9 +33,15 @@ class gamePlay extends Phaser.Scene
         this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
+        this.platform = this.physics.add.sprite(config.width/4,config.height - 20,'plataforma');
+        this.platform.body.setAllowGravity(false);
+        this.platform.body.setImmovable(true);
+
         this.cursores = this.input.keyboard.createCursorKeys();
 
- 
+        
+        this.health = 100;
+
         this.cursores.down.on
         (
             'down',
@@ -48,6 +55,8 @@ class gamePlay extends Phaser.Scene
         this.loadPools();
 
         this.loadAnimations();
+
+        this.physics.add.collider(this.player, this.platform);
     }
 
     loadPools()
