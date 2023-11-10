@@ -18,6 +18,7 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_walk','samus_walk.png',{frameWidth:22,frameHeight:32});
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
         this.load.image('plataforma','platform.png');
+        this.load.image('ground','ground.png');
 
         this.isjumping = false;
 
