@@ -8,7 +8,7 @@ class gameState extends Phaser.Scene
     preload()
     { //Carga assets en memoria
         this.cameras.main.setBackgroundColor("112"); 
-        this.load.setPath('assets/img');
+        this.load.setPath('assets\img');
         this.load.image('bg_back','background_back.png');
         this.load.image('bg_frontal','background_frontal.png');
         this.load.spritesheet('nave','naveAnim.png',
@@ -30,6 +30,14 @@ class gameState extends Phaser.Scene
         this.load.setPath('assets/sounds');
         this.load.audio('shoot','snd_shoot.mp3');
         this.load.audio('enemy_shoot','snd_enemy_laser.wav');
+
+        //tileset
+        this.load.setPath('assets/tilesets');
+        this.load.image('tileset1','tileset_1.png');
+        this.load.image('tileset2','tileset_2.png');
+
+        this.load.setPath('assets/maps');
+        this.load.tilemapTiledJSON('zone1','metroidplatforms.json');
         
     }
 
@@ -39,10 +47,19 @@ class gameState extends Phaser.Scene
 
         
 
-        this.bg_back = this.add.tileSprite
-        (0,0,config.width,config.height,'bg_back').setOrigin(0);
-        this.bg_frontal = this.add.tileSprite
-        (0,0,config.width,config.height,'bg_frontal').setOrigin(0);
+        //this.bg_back = this.add.tileSprite
+        //(0,0,config.width,config.height,'bg_back').setOrigin(0);
+        //this.bg_frontal = this.add.tileSprite
+        //(0,0,config.width,config.height,'bg_frontal').setOrigin(0);
+
+        //pintar nivel
+        this.map = this.add.tilemap('zone1');
+
+        this.map.addTilesetImage('tileset1');
+        this.map.addTilesetImage('tileset2');
+
+        this.map.createLayer('layer1','tileset1');
+        this.map.createLayer('layer2','tileset2');
         
         var powerUpShoot = false;
         
