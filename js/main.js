@@ -31,7 +31,7 @@ var config =
         default:'arcade',
         arcade:
         {
-            gravity:{y:200}
+            gravity:{y:400}
         }
     }
 };
