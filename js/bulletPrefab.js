@@ -7,13 +7,19 @@ class bulletPrefab extends Phaser.GameObjects.Sprite
         super(_scene,_posX,_posY,_spriteTag);
         _scene.add.existing(this);
         this.nivel = _scene;
+
+        this.timer = _scene.time.addEvent({
+            delay: 160,  // 3000 milisegundos = 3 segundos
+            callback: this.deActivate,
+            callbackScope: this
+        })
     }
+    
+
 
     deActivate()
     {
-        this.nivel.createExplosion(this);
-        this.setActive(false);
-        this.x = -100;
+        this.destroy(this);
         //this.setTexture('explosionAnim');
     }
 

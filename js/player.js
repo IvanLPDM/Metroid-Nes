@@ -1,4 +1,4 @@
-class navePrefab extends Phaser.GameObjects.Sprite
+class playerPref extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_posX,_posY,_spriteTag)
     {
@@ -23,10 +23,6 @@ class navePrefab extends Phaser.GameObjects.Sprite
        this.shield.setFrame(health);
     }
 
-    setShield(_shield)
-    {
-        this.shield=_shield;
-    }
 
     damage(_nave,_damageAgent)
     {

@@ -59,35 +59,39 @@ class gamePlay extends Phaser.Scene
     {
         //Mirar si hay alguna bala reciclable en la pool
         var _bullet = this.bulletPool.getFirst(false);
-        this.shootPositionX = this.player.x + 50;
-        this.shootPositionY = this.player.y - 10;
-        this.directionVelocityBulletX = 0;
-        this.directionVelocityBulletY = 0;
+
+        this.shootPositionX = this.player.x + 8;
+        this.shootPositionY = this.player.y - 7;
+        
         
         if(!_bullet)
         {//Que no? La creo
 
             if(this.cursores.up.isDown)
             {
-                this.shootPositionX = this.player.x + 50;
-                this.shootPositionY = this.player.y - 50;
+                this.shootPositionX = this.player.x + 4;
+                this.shootPositionY = this.player.y - 4;
                 this.directionVelocityBulletX = 0;
-                this.directionVelocityBulletY = 0;
+                this.directionVelocityBulletY = -300;
             }
             else if(this.cursores.left.isDown)
             {
-                this.shootPositionX = this.player.x - 50;
-                this.shootPositionY = this.player.y - 10;
+                this.shootPositionX = this.player.x - 16;
+                this.shootPositionY = this.player.y - 7;
 
-                this.directionVelocityBulletX = -10;
+                this.Initdirection = true;
+
+                this.directionVelocityBulletX = -300;
                 this.directionVelocityBulletY = 0;
             }
             else if(this.cursores.right.isDown)
             {
-                this.shootPositionX = this.player.x + 50;
-                this.shootPositionY = this.player.y - 10;
+                this.shootPositionX = this.player.x + 8;
+                this.shootPositionY = this.player.y - 7;
 
-                this.directionVelocityBulletX = 0;
+                this.Initdirection = true;
+
+                this.directionVelocityBulletX = 300;
                 this.directionVelocityBulletY = 0;
             }
             
@@ -98,24 +102,25 @@ class gamePlay extends Phaser.Scene
         {//Que si? La reciclo
             if(this.cursores.left.isDown)
             {
-                this.shootPositionX = this.player.x - 50;
+                this.shootPositionX = this.player.x - 20;
                 this.shootPositionY = this.player.y - 10;
             }
             else if(this.cursores.right.isDown)
             {
-                this.shootPositionX = this.player.x + 50;
+                this.shootPositionX = this.player.x + 20;
                 this.shootPositionY = this.player.y - 10;
             }
             else if(this.cursores.up.isDown)
             {
                 this.shootPositionX = this.player.x;
-                this.shootPositionY = this.player.y - 50;
+                this.shootPositionY = this.player.y - 20;
             }
             console.log('reciclando bala');
             _bullet.body.reset(this.shootPositionX, this.shootPositionY);
             _bullet.active = true;
         }
-        _bullet.body.setVelocitY(1);
+        _bullet.body.setAllowGravity(false);
+        _bullet.body.setVelocity(this.directionVelocityBulletX, this.directionVelocityBulletY);
         //Hago cosas con la bala
         //Dar velocidad
         //
@@ -181,7 +186,7 @@ class gamePlay extends Phaser.Scene
         }
         if(this.cursores.space.isDown && !this.isjumping && this.player.body.onFloor())
         {
-            this.player.setVelocityY(-100);
+            this.player.setVelocityY(-200);
             this.player.anims.play('jump',true);
             this.isjumping = true;
             
