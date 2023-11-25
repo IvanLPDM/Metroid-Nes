@@ -4,6 +4,7 @@ class batPrefab extends enemyPrefab
     { //instanciar el objeto
         super(_scene,_posX,_posY,_spriteTag);
         this.body.setAllowGravity(false);
+        this.health = gamePrefs.MAX_HEALTH_ENEMY;
     }   
 
     bathowItPatrols()

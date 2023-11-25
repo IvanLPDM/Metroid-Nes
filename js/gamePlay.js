@@ -12,13 +12,16 @@ class gamePlay extends Phaser.Scene
         this.load.image('samus','/sprites/samus_idle.png');
         this.load.image('bullet','/sprites/bullet.png');
         this.load.image('samus','image.png');
+        
 
+        
         this.load.setPath('assets/img/sprites');
         this.load.spritesheet('samus_idle','samus_idle.png',{frameWidth:20,frameHeight:32});
         this.load.spritesheet('samus_walk','samus_walk.png',{frameWidth:22,frameHeight:32});
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
         this.load.image('plataforma','platform.png');
         this.load.image('ground','ground.png');
+        this.load.image('potion','heal_drop.png');
         //enemies
         this.load.spritesheet('spiky1','spiky1_anim.png',{frameWidth:16,frameHeight:16});
         this.load.spritesheet('spiky2','spiky2_anim.png',{frameWidth:16,frameHeight:16});
@@ -45,9 +48,9 @@ class gamePlay extends Phaser.Scene
         
         this.spiky1 = new spikyPrefab(this,config.width/2 + 20,config.height/2,'spiky1')
         //this.spiky1.setCollideWorldBounds(true);
-        this.bat = new batPrefab(this,config.width/2 + 70, 50,'bat')
+        this.bat = new batPrefab(this,config.width/2 + 40, 50,'bat')
 
-        this.platform = this.physics.add.sprite(config.width/2 + 70,config.height - 20,'plataforma');
+        this.platform = this.physics.add.sprite(config.width/2 + 140,config.height - 20,'plataforma');
         this.platform.body.setAllowGravity(false);
         this.platform.body.setImmovable(true);
 
@@ -72,27 +75,68 @@ class gamePlay extends Phaser.Scene
 
         this.physics.add.collider(this.player, this.platform);
 
-        this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
+        this.physics.add.collider(this.player, this.potionPool, this.HealPlayer, null, this);
+
+        this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
 
         this.physics.add.collider(this.spiky1, this.platform);
 
-        this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+        
     }
 
     DamageSamus(player,spiky1){
 
-        player.body.reset(config.width/2,config.height/2);
+        //player.health--;
+
+        //if(player.health <= 0)
+            player.body.reset(65,100);
+        //this.scene.cameras.main.shake(500,0.05);
+        //this.scene.cameras.main.flash(250,255,0,0);  
+    }
+
+    HealPlayer(player, potion)
+    {
+        player.health += 20;
+        potion.destroy();
     }
 
     DamageEnemy(enemy){
+        
+        enemy.health--;
 
-        enemy.body.reset(config.width/2,config.height/2);
+        if(enemy.health <= 0)
+        {
+            this.dropPotion(enemy);
+            enemy.destroy();
+        }
+        
     }
 
-    loadPools()
-    {
-        this.bulletPool = this.physics.add.group();
-    }
+        loadPools()
+        {
+            this.bulletPool = this.physics.add.group();
+            this.potionPool = this.physics.add.group();
+        }
+
+        dropPotion(enemy) {
+            const potion = this.potionPool.get(enemy.x, enemy.y, 'potion');
+        
+            if (!potion) {
+                const newPotion = new Potion(this, enemy.x, enemy.y, 'potion');
+                newPotion.body.setAllowGravity(false);
+                newPotion.body.setVelocity(0, 0);
+                newPotion.body.setImmovable(true);
+                this.potionPool.add(newPotion);
+            } else {
+                potion.body.reset(enemy.x, enemy.y);
+                potion.body.setAllowGravity(false);
+                potion.body.setVelocity(0, 0);
+                potion.body.setImmovable(true);
+                potion.setActive(true);
+                potion.setVisible(true);
+            }
+        }
 
     createBullet()
     {
