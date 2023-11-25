@@ -1,20 +1,18 @@
-class potion extends Phaser.GameObjects.Sprite
-{
-    constructor(_scene,_posX,_posY,_spriteTag)
-    { //instanciar el objeto
-        super(_scene,_posX,_posY,_spriteTag);    
-    }   
+class Potion extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, spritetag) {
+        super(scene, x, y, spritetag);
+        scene.add.existing(this);
 
-    preUpdate(time,delta)
-    {
-        if(this.howItPatrols())
-        {
-            this.direccion *= -1;
-            this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);
-            this.flipX = !this.flipX;
-        }
+        scene.physics.world.enable(this);
+        
+        this.body.setAllowGravity(false);
 
-        this.anims.play('spiky_horizontal',true);
-        super.preUpdate(time, delta);
+        this.body.setVelocity(0, 0);
+
+        this.body.setImmovable(true);
+       
+        this.setScale(0.5);
+
+        // Puedes agregar más lógica de inicialización aquí
     }
 }
