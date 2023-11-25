@@ -15,7 +15,9 @@ class playerPrefab extends Phaser.GameObjects.Sprite
     hitHero(_player,_enemy)
     {
         this.player.health--;
-        this.player.body.reset(65,100);
+
+        if(this.player.health <= 0)
+            this.player.body.reset(65,100);
         this.scene.cameras.main.shake(500,0.05);
         this.scene.cameras.main.flash(250,255,0,0);    
         
