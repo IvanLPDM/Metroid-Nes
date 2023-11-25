@@ -1,4 +1,4 @@
-class playerPref extends Phaser.GameObjects.Sprite
+class playerPrefab extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_posX,_posY,_spriteTag)
     {
@@ -12,38 +12,13 @@ class playerPref extends Phaser.GameObjects.Sprite
                         
     }
 
-    Heal()
+    hitHero(_player,_enemy)
     {
-       health += 2;
-
-       if(health > MAX_HEALTH)
-       {
-          health = MAX_HEALTH;
-       }
-       this.shield.setFrame(health);
-    }
-
-
-    damage(_nave,_damageAgent)
-    {
-      if(!_damageAgent.active) return;
-
-      this.health--;
-      _damageAgent.deActivate();      
-
-      if(this.health<0)
-      {
-        this.dead = true;
-        //this.reset();
-      }else
-      {
-        this.shield.setFrame(this.health);
-      }
-    }
-
-    reset()
-    {
-        this.nivel.scene.restart();
+        this.player.health--;
+        this.player.body.reset(65,100);
+        this.scene.cameras.main.shake(500,0.05);
+        this.scene.cameras.main.flash(250,255,0,0);    
+        
     }
 
     preUpdate(time,delta)

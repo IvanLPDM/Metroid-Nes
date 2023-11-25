@@ -19,9 +19,15 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
         this.load.image('plataforma','platform.png');
         this.load.image('ground','ground.png');
+        //enemies
+        this.load.spritesheet('spiky1','spiky1_anim.png',{frameWidth:16,frameHeight:16});
+        this.load.spritesheet('spiky2','spiky2_anim.png',{frameWidth:16,frameHeight:16});
+        this.load.spritesheet('bean1','bean1_anim.png',{frameWidth:16,frameHeight:16});
+        this.load.spritesheet('bean2','bran2_anim.png',{frameWidth:16,frameHeight:16});
+        this.load.spritesheet('bat','bat_anim.png',{frameWidth:16,frameHeight:24});
+
 
         this.isjumping = false;
-
         
     }
 
@@ -32,9 +38,16 @@ class gamePlay extends Phaser.Scene
         //this.map.createLayer('capa de patrones 1', tileset);
 
         this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus_idle');
+        //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
-        this.platform = this.physics.add.sprite(config.width/4,config.height - 20,'plataforma');
+        //this.spiky1 = this.physics.add.sprite(config.width/2 + 20,config.height/2,'spiky1');
+        
+        this.spiky1 = new spikyPrefab(this,config.width/2 + 20,config.height/2,'spiky1')
+        //this.spiky1.setCollideWorldBounds(true);
+        this.bat = new batPrefab(this,config.width/2 + 70, 50,'bat')
+
+        this.platform = this.physics.add.sprite(config.width/2 + 70,config.height - 20,'plataforma');
         this.platform.body.setAllowGravity(false);
         this.platform.body.setImmovable(true);
 
@@ -58,6 +71,22 @@ class gamePlay extends Phaser.Scene
         this.loadAnimations();
 
         this.physics.add.collider(this.player, this.platform);
+
+        this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
+
+        this.physics.add.collider(this.spiky1, this.platform);
+
+        this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+    }
+
+    DamageSamus(player,spiky1){
+
+        player.body.reset(config.width/2,config.height/2);
+    }
+
+    DamageEnemy(enemy){
+
+        enemy.body.reset(config.width/2,config.height/2);
     }
 
     loadPools()
@@ -162,6 +191,31 @@ class gamePlay extends Phaser.Scene
                     frameRate: 10,
                     repeat: -1
                 });
+
+        this.anims.create(
+            {
+                key: 'spiky_horizontal',
+                frames:this.anims.generateFrameNumbers('spiky1', {start:0, end: 1}),
+                frameRate: 5,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'spiky_vertical',
+                frames:this.anims.generateFrameNumbers('spiky1', {start:2, end: 3}),
+                frameRate: 5,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'bat_anim',
+                frames:this.anims.generateFrameNumbers('bat', {start:0, end: 2}),
+                frameRate: 5,
+                repeat: -1
+            }
+        );
     }
     
     update()
@@ -205,6 +259,8 @@ class gamePlay extends Phaser.Scene
         if(this.player.body.onFloor()){
             this.isjumping = false;
         }
+
+        //this.spiky1.anims.play('spiky_horizontal',true);
         
     }
 
