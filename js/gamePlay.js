@@ -82,6 +82,7 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.spiky1, this.platform);
 
         this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+        
     }
 
     DamageSamus(player,spiky1){
@@ -97,7 +98,7 @@ class gamePlay extends Phaser.Scene
     HealPlayer(player, potion)
     {
         player.health += 20;
-        potion.delete;
+        potion.destroy();
     }
 
     DamageEnemy(enemy){
