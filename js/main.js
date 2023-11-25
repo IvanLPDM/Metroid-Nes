@@ -1,6 +1,6 @@
 var gamePrefs=
 {
-    Player_SPEED:1,
+    Player_SPEED:100,
     PLAYER_JUMP: 20,
     BULLET_SPEED:-100,
     ENEMY_BULLET_SPEED:100,

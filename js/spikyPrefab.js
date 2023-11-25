@@ -8,7 +8,7 @@ class spikyPrefab extends enemyPrefab
 
     howItPatrols()
     {
-        return (this.body.position.x > config.width - 50 ||this.body.position.x < 50)
+        return (this.body.position.x > config.width - 100 ||this.body.position.x < 50)
     }
 
     preUpdate(time,delta)
