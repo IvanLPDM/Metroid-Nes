@@ -3,7 +3,12 @@ class spikyPrefab extends enemyPrefab
     constructor(_scene,_posX,_posY,_spriteTag)
     { //instanciar el objeto
         super(_scene,_posX,_posY,_spriteTag);  
-        this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);     
+
+        this.velocityX = 20;
+        this.velocityY = 0;
+
+        this.body.setVelocityX(this.velocityX);
+        this.body.setVelocityY(this.velocityY);
     }   
 
     howItPatrols()
@@ -16,7 +21,8 @@ class spikyPrefab extends enemyPrefab
         if(this.howItPatrols())
         {
             this.direccion *= -1;
-            this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);
+            this.body.setVelocityX(this.velocityX);
+            this.body.setVelocityY(this.velocityY);
             this.flipX = !this.flipX;
         }
 
