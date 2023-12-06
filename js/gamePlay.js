@@ -22,7 +22,7 @@ class gamePlay extends Phaser.Scene
         this.load.image('plataforma','platform.png');
         this.load.image('ground','ground.png');
         this.load.image('potion','heal_drop.png');
-        this.load.image('ceiling','ceiling.png');
+this.load.image('ceiling','ceiling.png');
         this.load.image('ceiling1','ceiling1.png');
         this.load.image('ceiling2','ceiling2.png');
         this.load.image('vertical_platform','vertical_platform.png');
@@ -39,7 +39,7 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('bean2','bran2_anim.png',{frameWidth:16,frameHeight:16});
         this.load.spritesheet('bat','bat_anim.png',{frameWidth:16,frameHeight:24});
 
-        this.load.setPath('assets/img/tilesets');
+this.load.setPath('assets/img/tilesets');
         this.load.image('walls_tileset1','tileset_1.png');
         this.load.image('walls_tileset2','tileset_2.png');
 
@@ -67,7 +67,7 @@ class gamePlay extends Phaser.Scene
         this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus_idle');
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
-        
+
 
         //this.spiky1 = this.physics.add.sprite(config.width/2 + 20,config.height/2,'spiky1');
         
@@ -76,11 +76,11 @@ class gamePlay extends Phaser.Scene
         this.bat = new batPrefab(this,config.width/2 + 40, 50,'bat')
 
         this.platform = this.physics.add.sprite(config.width/2 + 140,config.height - 20,'plataforma');
-        //tilemap
+//tilemap
         this.platform = this.physics.add.sprite(config.width/2 - 24,config.height - 40,'plataforma');
         this.platform.body.setAllowGravity(false);
         this.platform.body.setImmovable(true);
-        this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
+this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
         this.ground.body.setAllowGravity(false);
         this.ground.body.setImmovable(true);
         this.ceiling1 = this.physics.add.sprite(0,0,'ceiling1').setOrigin(0,0);
@@ -142,7 +142,7 @@ class gamePlay extends Phaser.Scene
 
 
         this.physics.add.collider(this.player, this.platform);
-        this.physics.add.collider(this.player, this.platform2);
+this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.platform3);
         this.physics.add.collider(this.player, this.platform4);
         this.physics.add.collider(this.player, this.platform5);
@@ -158,7 +158,7 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.doorplat1);
 
         this.physics.add.collider(this.player, this.potionPool, this.HealPlayer, null, this);
-        this.physics.add.collider(this.spiky1, this.platform);
+this.physics.add.collider(this.spiky1, this.platform);
         this.physics.add.collider(this.spiky1, this.ground);
         this.physics.add.collider(this.spiky1, this.ceiling);
 
@@ -174,7 +174,7 @@ class gamePlay extends Phaser.Scene
 
         this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
         
-        this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
     }
 
     DamageSamus(player,spiky1){
@@ -182,7 +182,7 @@ class gamePlay extends Phaser.Scene
         //player.health--;
 
         //if(player.health <= 0)
-            player.body.reset(65,100);
+        this.scene.start('loseScene');
         //this.scene.cameras.main.shake(500,0.05);
         //this.scene.cameras.main.flash(250,255,0,0);  
     }
@@ -206,7 +206,7 @@ class gamePlay extends Phaser.Scene
         
         }
 
-        GirarEnemy()
+       GirarEnemy()
         {
             for (const enemy of this.enemiesPool.getChildren()) {
                 handleEnemy(enemy);
@@ -388,7 +388,7 @@ class gamePlay extends Phaser.Scene
         }
         else{
 
-            this.player.setVelocityX(0)
+this.player.setVelocityX(0)
             if(this.player.body.onFloor()){
                 this.player.anims.play('idle',true);
                 }

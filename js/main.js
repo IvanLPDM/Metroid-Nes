@@ -16,7 +16,7 @@ var config =
     type: Phaser.AUTO,
     width: 960,
     height: 240,
-    scene:[startScene, gamePlay], //array con las escenas
+    scene:[startScene, gamePlay, loseScene], //array con las escenas
     render:
     {
         pixelArt:true
