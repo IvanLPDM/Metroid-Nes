@@ -17,7 +17,11 @@ class playerPrefab extends Phaser.GameObjects.Sprite
         this.player.health--;
 
         if(this.player.health <= 0)
+        {
+            this.scene.start('loseScene');
             this.player.body.reset(65,100);
+        }
+
         this.scene.cameras.main.shake(500,0.05);
         this.scene.cameras.main.flash(250,255,0,0);    
         
