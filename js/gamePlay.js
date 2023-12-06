@@ -193,17 +193,25 @@ class gamePlay extends Phaser.Scene
         potion.destroy();
     }
 
-    DamageEnemy(enemy){
-        
-        enemy.health--;
-
-        if(enemy.health <= 0)
+        DamageEnemy(enemy)
         {
-            this.dropPotion(enemy);
-            enemy.destroy();
-        }
         
-    }
+            enemy.health--;
+
+            if(enemy.health <= 0)
+            {
+                this.dropPotion(enemy);
+                enemy.destroy();
+            }
+        
+        }
+
+        GirarEnemy()
+        {
+            for (const enemy of this.enemiesPool.getChildren()) {
+                handleEnemy(enemy);
+            }
+        }
 
         loadPools()
         {
