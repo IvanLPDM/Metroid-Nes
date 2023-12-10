@@ -7,6 +7,10 @@ class gamePlay extends Phaser.Scene
 
     preload()
     {
+
+
+        
+
         this.cameras.main.setBackgroundColor("0"); 
         this.load.setPath('assets/img');
         this.load.image('samus','/sprites/samus_idle.png');
@@ -19,10 +23,15 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_idle','samus_idle.png',{frameWidth:20,frameHeight:32});
         this.load.spritesheet('samus_walk','samus_walk.png',{frameWidth:22,frameHeight:32});
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
+        this.load.spritesheet('ball_transform','ball_transform.png',{frameWidth:33,frameHeight:24});
+        this.load.spritesheet('ball_walk','ball_walk.png',{frameWidth:17,frameHeight:13});
+
+        this.load.spritesheet('powerup','powerup.png',{frameWidth:14,frameHeight:13});
+
         this.load.image('plataforma','platform.png');
         this.load.image('ground','ground.png');
         this.load.image('potion','heal_drop.png');
-this.load.image('ceiling','ceiling.png');
+        this.load.image('ceiling','ceiling.png');
         this.load.image('ceiling1','ceiling1.png');
         this.load.image('ceiling2','ceiling2.png');
         this.load.image('vertical_platform','vertical_platform.png');
@@ -50,6 +59,13 @@ this.load.setPath('assets/img/tilesets');
 
     create()
     {
+        this.HasPowerUp = false;
+        this.PowerUpOn = false;
+
+        this.powerup = this.physics.add.sprite(137,config.height/2 + 32,'powerup');
+        this.powerup.body.setAllowGravity(false);
+        this.powerup.body.setImmovable(true);
+        this.physics.add.collider(this.player, this.powerup,this.GetPowerUp,this);
 
         this.map = this.add.tilemap('metroidplatforms');
         
@@ -80,7 +96,7 @@ this.load.setPath('assets/img/tilesets');
         this.platform = this.physics.add.sprite(config.width/2 - 24,config.height - 40,'plataforma');
         this.platform.body.setAllowGravity(false);
         this.platform.body.setImmovable(true);
-this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
+        this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
         this.ground.body.setAllowGravity(false);
         this.ground.body.setImmovable(true);
         this.ceiling1 = this.physics.add.sprite(0,0,'ceiling1').setOrigin(0,0);
@@ -126,15 +142,11 @@ this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
         
         this.health = 100;
 
-        this.cursores.down.on
-        (
-            'down',
-            function()
-            {
-                this.createBullet();
-            },
-            this
-        ); 
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        
+        this.input.keyboard.on('keydown-D', function (event) {
+            this.createBullet(); 
+        }, this); 
 
         this.loadPools();
 
@@ -142,7 +154,7 @@ this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
 
 
         this.physics.add.collider(this.player, this.platform);
-this.physics.add.collider(this.player, this.platform2);
+        this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.platform3);
         this.physics.add.collider(this.player, this.platform4);
         this.physics.add.collider(this.player, this.platform5);
@@ -158,7 +170,7 @@ this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.doorplat1);
 
         this.physics.add.collider(this.player, this.potionPool, this.HealPlayer, null, this);
-this.physics.add.collider(this.spiky1, this.platform);
+        this.physics.add.collider(this.spiky1, this.platform);
         this.physics.add.collider(this.spiky1, this.ground);
         this.physics.add.collider(this.spiky1, this.ceiling);
 
@@ -174,7 +186,13 @@ this.physics.add.collider(this.spiky1, this.platform);
 
         this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
         
-this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+    }
+
+    GetPowerUp(){
+
+        HasPowerUp = true;
+        this.powerup.destroy();
     }
 
     DamageSamus(player,spiky1){
@@ -360,10 +378,28 @@ this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
                 repeat: -1
             }
         );
+        this.anims.create(
+            {
+                key: 'ball_walk_anim',
+                frames:this.anims.generateFrameNumbers('ball_walk', {start:0, end: 3}),
+                frameRate: 10,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'powerup_anim',
+                frames:this.anims.generateFrameNumbers('powerup', {start:0, end: 3}),
+                frameRate: 10,
+                repeat: -1
+            }
+        );
     }
     
     update()
     {
+        this.powerup.anims.play('powerup_anim',true);
+
         if(this.cursores.left.isDown)
         {
             //this.nave.x -= gamePrefs.NAVE_SPEED;
@@ -406,6 +442,15 @@ this.player.setVelocityX(0)
         }
 
         //this.spiky1.anims.play('spiky_horizontal',true);
+
+        if(HasPowerUp == true){
+            if(this.cursores.down.isDown && this.player.body.onFloor()){
+            
+                this.player.anims.play('ball_walk_anim',true);
+                //this.player.body.setSize(20,32,0,32);
+            }
+        }
+        
         
     }
 
