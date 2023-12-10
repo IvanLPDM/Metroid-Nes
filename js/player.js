@@ -6,9 +6,11 @@ class playerPrefab extends Phaser.GameObjects.Sprite
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.body.collideWorldBounds = true;
-        this.health=gamePrefs.MAX_HEALTH;
+        this.health = 100;
         this.nivel=_scene;
         this.dead = false;
+        this.haspowerup = false;
+        this.powerupon = false;
                         
     }
 
@@ -30,5 +32,6 @@ class playerPrefab extends Phaser.GameObjects.Sprite
     preUpdate(time,delta)
     {        
         super.preUpdate(time, delta); 
+        
     }
 }

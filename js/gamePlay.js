@@ -7,10 +7,6 @@ class gamePlay extends Phaser.Scene
 
     preload()
     {
-
-
-        
-
         this.cameras.main.setBackgroundColor("0"); 
         this.load.setPath('assets/img');
         this.load.image('samus','/sprites/samus_idle.png');
@@ -24,9 +20,12 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_walk','samus_walk.png',{frameWidth:22,frameHeight:32});
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
         this.load.spritesheet('ball_transform','ball_transform.png',{frameWidth:33,frameHeight:24});
-        this.load.spritesheet('ball_walk','ball_walk.png',{frameWidth:17,frameHeight:13});
+        this.load.spritesheet('ball_walk','ball_walk1.png',{frameWidth:17,frameHeight:32});
 
         this.load.spritesheet('powerup','powerup.png',{frameWidth:14,frameHeight:13});
+
+        //ui
+        this.load.image('Energy','Energy.png');
 
         this.load.image('plataforma','platform.png');
         this.load.image('ground','ground.png');
@@ -59,13 +58,8 @@ this.load.setPath('assets/img/tilesets');
 
     create()
     {
-        this.HasPowerUp = false;
-        this.PowerUpOn = false;
 
-        this.powerup = this.physics.add.sprite(137,config.height/2 + 32,'powerup');
-        this.powerup.body.setAllowGravity(false);
-        this.powerup.body.setImmovable(true);
-        this.physics.add.collider(this.player, this.powerup,this.GetPowerUp,this);
+        //var hasPowerUp = false;
 
         this.map = this.add.tilemap('metroidplatforms');
         
@@ -83,6 +77,28 @@ this.load.setPath('assets/img/tilesets');
         this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus_idle');
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
+
+        this.powerup = this.physics.add.sprite(137,config.height/2 + 32,'powerup');
+        this.powerup.body.setAllowGravity(false);
+
+        this.energyUI = this.add.sprite(130,30,'Energy')
+        .setOrigin(1,0)
+        .setScale(2)
+        .setDepth(1);
+
+        this.energy = 100;
+        this.energyText = this.add.text
+        (
+            160,
+            30,
+            this.energy,
+            {
+                fontFamily:'Arial',
+                fill:'#FFFFFF',
+                fontSize:17
+            }
+        ).setOrigin(1,0)
+        .setDepth(1);
 
 
         //this.spiky1 = this.physics.add.sprite(config.width/2 + 20,config.height/2,'spiky1');
@@ -139,9 +155,6 @@ this.load.setPath('assets/img/tilesets');
 
         this.cursores = this.input.keyboard.createCursorKeys();
 
-        
-        this.health = 100;
-
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         
         this.input.keyboard.on('keydown-D', function (event) {
@@ -178,7 +191,7 @@ this.load.setPath('assets/img/tilesets');
         this.physics.add.collider(this.bat, this.ground);
         this.physics.add.collider(this.bat, this.ceiling);
 
-        this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
+        //this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
 
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
 
@@ -187,19 +200,22 @@ this.load.setPath('assets/img/tilesets');
         this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
         
         this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+        
+        this.physics.add.overlap(this.powerup,this.player,this.GetPowerUp,null,this);
     }
 
-    GetPowerUp(){
+    GetPowerUp(powerup, player){
 
-        HasPowerUp = true;
-        this.powerup.destroy();
+        //hasPowerUp = true;
+        player.haspowerup = true;
+        powerup.x = -10;
     }
 
     DamageSamus(player,spiky1){
 
-        //player.health--;
-
-        //if(player.health <= 0)
+        player.health -= 10;
+        
+        if(player.health <= 0)
         this.scene.start('loseScene');
         //this.scene.cameras.main.shake(500,0.05);
         //this.scene.cameras.main.flash(250,255,0,0);  
@@ -405,9 +421,9 @@ this.load.setPath('assets/img/tilesets');
             //this.nave.x -= gamePrefs.NAVE_SPEED;
             this.player.setVelocityX(-gamePrefs.Player_SPEED);
             this.player.setFlipX(true);
-            if(this.player.body.onFloor()){
+            if(this.player.body.onFloor() && this.player.powerupon == false){
                 this.player.anims.play('walk',true);
-                }
+            }
             //this.nave.body.setVelocityX(-gamePrefs.NAVE_SPEED);
             //this.player.anims.play('left',true);
         }else
@@ -416,7 +432,7 @@ this.load.setPath('assets/img/tilesets');
             //this.nave.x += gamePrefs.NAVE_SPEED;
             this.player.setVelocityX(gamePrefs.Player_SPEED);
             this.player.setFlipX(false);
-            if(this.player.body.onFloor()){
+            if(this.player.body.onFloor() && this.player.powerupon == false){
             this.player.anims.play('walk',true);
             }
             //this.nave.body.setVelocityX(gamePrefs.NAVE_SPEED);
@@ -424,10 +440,11 @@ this.load.setPath('assets/img/tilesets');
         }
         else{
 
-this.player.setVelocityX(0)
+            this.player.setVelocityX(0)
             if(this.player.body.onFloor()){
                 this.player.anims.play('idle',true);
-                }
+                this.player.body.setSize(20,32);
+            }
         }
         if(this.cursores.space.isDown && !this.isjumping && this.player.body.onFloor())
         {
@@ -443,12 +460,21 @@ this.player.setVelocityX(0)
 
         //this.spiky1.anims.play('spiky_horizontal',true);
 
-        if(HasPowerUp == true){
-            if(this.cursores.down.isDown && this.player.body.onFloor()){
+        if(this.cursores.down.isDown && this.player.haspowerup){
             
+            if(this.player.body.onFloor()){
+                
                 this.player.anims.play('ball_walk_anim',true);
-                //this.player.body.setSize(20,32,0,32);
+                this.player.body.setSize(20,13);
+                this.player.powerupon = true;
             }
+            
+            //this.player.body.setSize(20,32,0,32);
+        }
+        if(this.cursores.down.isUp){
+            
+            this.player.powerupon = false;
+            //this.player.body.setSize(20,32,0,32);
         }
         
         
