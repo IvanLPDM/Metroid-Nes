@@ -7,11 +7,22 @@ class gamePlay extends Phaser.Scene
 
     preload()
     {
+        //Sounds
+        this.load.audio('GamePlaySample', 'assets/sounds/1-03 Brinstar (Mono).mp3');
+        this.load.audio('HitSound', 'assets/sounds/Hit.wav');
+        this.load.audio('DeadSound', 'assets/sounds/Dead.wav');
+        this.load.audio('ShootSound', 'assets/sounds/Disparo.wav');
+        this.load.audio('PickPotionSound', 'assets/sounds/PickPotion.wav');
+        this.load.audio('HitEnemySound', 'assets/sounds/HitEnemy.wav');
+        this.load.audio('JumpSound', 'assets/sounds/Jump.wav');
+
+
         this.cameras.main.setBackgroundColor("0"); 
         this.load.setPath('assets/img');
         this.load.image('samus','/sprites/samus_idle.png');
         this.load.image('bullet','/sprites/bullet.png');
         this.load.image('samus','image.png');
+        
         
 
         
@@ -21,6 +32,7 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
         this.load.spritesheet('ball_transform','ball_transform.png',{frameWidth:33,frameHeight:24});
         this.load.spritesheet('ball_walk','ball_walk1.png',{frameWidth:17,frameHeight:32});
+        this.load.spritesheet('door','door_anim_reves.png',{frameWidth:17,frameHeight:48});
 
         this.load.spritesheet('powerup','powerup.png',{frameWidth:14,frameHeight:13});
 
@@ -39,6 +51,7 @@ class gamePlay extends Phaser.Scene
         this.load.image('powerup_platform','powerup_platform.png');
         this.load.image('door_platform','door_platform.png');
         this.load.image('horizontal_platform','horizontal_platform.png');
+        this.load.image('portalGame','portal.png');
 
         //enemies
         this.load.spritesheet('spiky1','spiky1_anim.png',{frameWidth:16,frameHeight:16});
@@ -47,9 +60,10 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('bean2','bran2_anim.png',{frameWidth:16,frameHeight:16});
         this.load.spritesheet('bat','bat_anim.png',{frameWidth:16,frameHeight:24});
 
-this.load.setPath('assets/img/tilesets');
+        this.load.setPath('assets/img/tilesets');
         this.load.image('walls_tileset1','tileset_1.png');
         this.load.image('walls_tileset2','tileset_2.png');
+        
 
 
         this.isjumping = false;
@@ -156,14 +170,28 @@ this.load.setPath('assets/img/tilesets');
         this.cursores = this.input.keyboard.createCursorKeys();
 
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
         
+        
+
+        //Disparar
         this.input.keyboard.on('keydown-D', function (event) {
+            this.ShootSoundA.play();
             this.createBullet(); 
         }, this); 
 
         this.loadPools();
 
         this.loadAnimations();
+
+
+        this.door = this.physics.add.sprite(config.width/2 + 440,config.height/2 - 16,'door');
+        this.door.body.setAllowGravity(false);
+        this.door.body.setImmovable(true);
+
+        this.cubeDoor = this.physics.add.sprite(config.width/2 + 464,config.height/2 - 16,'portalGame');
+        this.cubeDoor.body.setAllowGravity(false);
+        this.cubeDoor.body.setImmovable(true);
 
 
         this.physics.add.collider(this.player, this.platform);
@@ -181,6 +209,8 @@ this.load.setPath('assets/img/tilesets');
         this.physics.add.collider(this.player, this.platform7);
         this.physics.add.collider(this.player, this.doorplat);
         this.physics.add.collider(this.player, this.doorplat1);
+        this.physics.add.collider(this.player, this.door);
+        
 
         this.physics.add.collider(this.player, this.potionPool, this.HealPlayer, null, this);
         this.physics.add.collider(this.spiky1, this.platform);
@@ -191,7 +221,14 @@ this.load.setPath('assets/img/tilesets');
         this.physics.add.collider(this.bat, this.ground);
         this.physics.add.collider(this.bat, this.ceiling);
 
+
+        
+        //Collisions
         //this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
+
+        this.physics.add.overlap(this.player, this.cubeDoor,this.ChangeScene,null,this);
+
+        this.physics.add.overlap(this.bulletPool, this.door,this.OpenDoor,null,this);
 
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
 
@@ -202,6 +239,50 @@ this.load.setPath('assets/img/tilesets');
         this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
         
         this.physics.add.overlap(this.powerup,this.player,this.GetPowerUp,null,this);
+
+        //Audios
+        this.GameplayTheme = this.sound.add('GamePlaySample');
+        this.HitSoundA = this.sound.add('HitSound');
+        this.DeadSoundA = this.sound.add('DeadSound');
+        this.ShootSoundA = this.sound.add('ShootSound');
+        this.PickPotionSoundA = this.sound.add('PickPotionSound');
+        this.HitEnemySoundA = this.sound.add('HitEnemySound');
+        this.JumpSoundA = this.sound.add('JumpSound');
+
+        this.GameplayTheme.play();
+    }
+
+    ChangeScene()
+    {
+        const camX = this.cameras.main.scrollX;
+        const camY = this.cameras.main.scrollY;
+
+        const destinoX = camX - 940;
+        const destinoY = camY;
+
+        // Crear un objeto tween para desplazar la cámara
+        this.tweens.add({
+            targets: this.cameras.main,
+            x: destinoX,
+            y: destinoY,
+            duration: 6000,
+            ease: 'Power2',
+            onComplete: function () {
+                console.log('Animación de desplazamiento hacia la derecha completada.');
+            }
+        });
+    }
+
+    OpenDoor()
+    {
+        this.door.anims.play('OpenDoor',true);
+        this.time.delayedCall(500, this.destruirPuerta, [], this);
+        
+    }
+
+    destruirPuerta()
+    {
+        this.door.destroy();
     }
 
     GetPowerUp(powerup, player){
@@ -410,6 +491,14 @@ this.load.setPath('assets/img/tilesets');
                 repeat: -1
             }
         );
+        this.anims.create(
+            {
+                key: 'OpenDoor',
+                frames:this.anims.generateFrameNumbers('door', {start:1, end: 0}),
+                frameRate: 1,
+                repeat: -1
+            }
+        );
     }
     
     update()
@@ -448,6 +537,7 @@ this.load.setPath('assets/img/tilesets');
         }
         if(this.cursores.space.isDown && !this.isjumping && this.player.body.onFloor())
         {
+            this.JumpSoundA.play();
             this.player.setVelocityY(-265);
             this.player.anims.play('jump',true);
             this.isjumping = true;
