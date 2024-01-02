@@ -118,6 +118,8 @@ class gamePlay extends Phaser.Scene
         //this.spiky1 = this.physics.add.sprite(config.width/2 + 20,config.height/2,'spiky1');
         
         this.spiky1 = new spikyPrefab(this,config.width/2 + 20,config.height/2,'spiky1').setOrigin(0,1);
+        this.spiky2 = new spikyPinkPrefab(this,config.width/2 + 60,config.height/2,'spiky2').setOrigin(0,1);
+        this.bean = new beanPrefab(this,config.width/2 + 300,config.height/2 + 40, 'bean1');
         //this.spiky1.setCollideWorldBounds(true);
         this.bat = new batPrefab(this,config.width/2 + 40, 50,'bat')
 
@@ -217,6 +219,10 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.spiky1, this.ground);
         this.physics.add.collider(this.spiky1, this.ceiling);
 
+        this.physics.add.collider(this.spiky2, this.platform);
+        this.physics.add.collider(this.spiky2, this.ground);
+        this.physics.add.collider(this.spiky2, this.ceiling);
+
         this.physics.add.collider(this.bat, this.platform);
         this.physics.add.collider(this.bat, this.ground);
         this.physics.add.collider(this.bat, this.ceiling);
@@ -233,6 +239,13 @@ class gamePlay extends Phaser.Scene
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
 
         this.physics.add.collider(this.spiky1, this.platform);
+
+        this.physics.add.collider(this.bean, this.platform);
+        this.physics.add.collider(this.bean, this.platform2);
+        this.physics.add.collider(this.bean, this.platform3);
+        this.physics.add.collider(this.bean, this.platform4);
+        this.physics.add.collider(this.bean, this.platform5);
+        this.physics.add.collider(this.bean, this.platform6);
 
         this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
         
@@ -455,6 +468,14 @@ class gamePlay extends Phaser.Scene
             {
                 key: 'spiky_horizontal',
                 frames:this.anims.generateFrameNumbers('spiky1', {start:0, end: 1}),
+                frameRate: 5,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'spiky2_horizontal',
+                frames:this.anims.generateFrameNumbers('spiky2', {start:0, end: 1}),
                 frameRate: 5,
                 repeat: -1
             }
