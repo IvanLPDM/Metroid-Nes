@@ -238,6 +238,9 @@ class gamePlay extends Phaser.Scene
 
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
 
+        this.physics.add.overlap(this.player, this.bean,this.DamageSamus,null,this);
+        
+
         this.physics.add.collider(this.spiky1, this.platform);
 
         this.physics.add.collider(this.bean, this.platform);
@@ -246,10 +249,22 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.bean, this.platform4);
         this.physics.add.collider(this.bean, this.platform5);
         this.physics.add.collider(this.bean, this.platform6);
+        this.physics.add.collider(this.bean, this.ground);
+        this.physics.add.collider(this.bean, this.bound);
+        this.physics.add.collider(this.bean, this.ceiling1);
+        this.physics.add.collider(this.bean, this.ceiling2);
+        this.physics.add.collider(this.bean, this.platform4);
+        this.physics.add.collider(this.bean, this.powerupplatform);
+        this.physics.add.collider(this.bean, this.platform7);
+        this.physics.add.collider(this.bean, this.doorplat);
+        this.physics.add.collider(this.bean, this.doorplat1);
+        this.physics.add.collider(this.bean, this.door);
 
         this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
         
         this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
+
+        this.physics.add.overlap(this.bulletPool, this.bean,this.DamageEnemy,null,this);
         
         this.physics.add.overlap(this.powerup,this.player,this.GetPowerUp,null,this);
 
