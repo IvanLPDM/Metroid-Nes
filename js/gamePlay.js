@@ -182,6 +182,7 @@ class gamePlay extends Phaser.Scene
         
 
         //Disparar
+        this.health = 100;
         this.shooting = false;
         this.lookingLeft = false;
         this.lookingRight = false;
@@ -331,17 +332,34 @@ class gamePlay extends Phaser.Scene
 
     DamageSamus(player,spiky1){
 
-        player.health -= 10;
+        this.health -= 15;
+
+         // Aplica una fuerza de retroceso
+    var retrocesoX = 200; // Ajusta la fuerza de retroceso en el eje X según sea necesario
+    var retrocesoY = 200;   // Puedes ajustar el retroceso en el eje Y si es necesario
+
+    // Aplica la fuerza de retroceso
+    player.setVelocity(-retrocesoX, -retrocesoY);
+
+    // Establece un temporizador para restablecer la velocidad después de un tiempo
         
-        if(player.health <= 0)
-        this.scene.start('loseScene');
+        if(this.health <= 0)
+        {
+            this.GameplayTheme.stop();
+            this.scene.start('loseScene');
+        }
+            
+
+        
         //this.scene.cameras.main.shake(500,0.05);
         //this.scene.cameras.main.flash(250,255,0,0);  
     }
 
+    
+
     HealPlayer(player, potion)
     {
-        player.health += 20;
+        this.health += 20;
         potion.destroy();
     }
 
@@ -354,6 +372,7 @@ class gamePlay extends Phaser.Scene
             {
                 this.dropPotion(enemy);
                 enemy.destroy();
+                
             }
         
         }
