@@ -45,6 +45,7 @@ class gamePlay extends Phaser.Scene
         this.load.image('ceiling','ceiling.png');
         this.load.image('ceiling1','ceiling1.png');
         this.load.image('ceiling2','ceiling2.png');
+        this.load.image('ceiling3','ceiling3.png');
         this.load.image('vertical_platform','vertical_platform.png');
         this.load.image('big_platform','big_platform.png');
         this.load.image('left_bound','left_bound.png');
@@ -52,6 +53,8 @@ class gamePlay extends Phaser.Scene
         this.load.image('door_platform','door_platform.png');
         this.load.image('horizontal_platform','horizontal_platform.png');
         this.load.image('portalGame','portal.png');
+        this.load.image('obstacle','obstacle.png');
+        this.load.image('room4_wall','room4_wall.png');
 
         //enemies
         this.load.spritesheet('spiky1','spiky1_anim.png',{frameWidth:16,frameHeight:16});
@@ -88,11 +91,11 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(config.width/2,config.height/2,'samus_idle');
+        this.player = this.physics.add.sprite(960/2,1960 - 140,'samus_idle');
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
-        this.powerup = this.physics.add.sprite(137,config.height/2 + 32,'powerup');
+        this.powerup = this.physics.add.sprite(137,1960 - 90,'powerup');
         this.powerup.body.setAllowGravity(false);
 
         this.energyUI = this.add.sprite(130,30,'Energy')
@@ -117,57 +120,109 @@ class gamePlay extends Phaser.Scene
 
         //this.spiky1 = this.physics.add.sprite(config.width/2 + 20,config.height/2,'spiky1');
         
-        this.spiky1 = new spikyPrefab(this,config.width/2 + 20,config.height/2,'spiky1').setOrigin(0,1);
-        this.spiky2 = new spikyPinkPrefab(this,config.width/2 + 60,config.height/2,'spiky2').setOrigin(0,1);
-        this.bean = new beanPrefab(this,config.width/2 + 300,config.height/2 + 40, 'bean1');
+        this.spiky1 = new spikyPrefab(this,920/2 + 20,1960 - 140,'spiky1').setOrigin(0,1);
+        this.spiky2 = new spikyPinkPrefab(this,920/2 + 60,1960 - 140,'spiky2').setOrigin(0,1);
+        this.bean = new beanPrefab(this,920/2 + 300,1960 - 140 + 40, 'bean1');
         //this.spiky1.setCollideWorldBounds(true);
-        this.bat = new batPrefab(this,config.width/2 + 40, 50,'bat')
+        this.bat = new batPrefab(this,920/2 + 40, 1960 - 50,'bat')
 
-        this.platform = this.physics.add.sprite(config.width/2 + 140,config.height - 20,'plataforma');
+        this.platform = this.physics.add.sprite(960/2 + 140,1960 - 20,'plataforma');
 //tilemap
-        this.platform = this.physics.add.sprite(config.width/2 - 24,config.height - 40,'plataforma');
+        this.platform = this.physics.add.sprite(960/2 - 24,1960 - 40,'plataforma');
         this.platform.body.setAllowGravity(false);
         this.platform.body.setImmovable(true);
-        this.ground = this.physics.add.sprite(0,config.height,'ground').setOrigin(0,1);
+        this.ground = this.physics.add.sprite(0,1960,'ground').setOrigin(0,1);
         this.ground.body.setAllowGravity(false);
         this.ground.body.setImmovable(true);
-        this.ceiling1 = this.physics.add.sprite(0,0,'ceiling1').setOrigin(0,0);
+        this.ceiling1 = this.physics.add.sprite(0,1960-240,'ceiling1').setOrigin(0,0);
         this.ceiling1.body.setAllowGravity(false);
         this.ceiling1.body.setImmovable(true);
-        this.ceiling2 = this.physics.add.sprite(config.width/2 - 66,0,'ceiling2').setOrigin(0,0);
+        this.ceiling2 = this.physics.add.sprite(960/2 - 66,1960-240,'ceiling2').setOrigin(0,0);
         this.ceiling2.body.setAllowGravity(false);
         this.ceiling2.body.setImmovable(true);
-        this.platform2 = this.physics.add.sprite(config.width/2 - 80,config.height - 80,'vertical_platform').setOrigin(0,1);
+        this.platform2 = this.physics.add.sprite(960/2 - 80,1960 - 80,'vertical_platform').setOrigin(0,1);
         this.platform2.body.setAllowGravity(false);
         this.platform2.body.setImmovable(true);
-        this.platform3 = this.physics.add.sprite(config.width/2,config.height - 80,'vertical_platform').setOrigin(0,1);
+        this.platform3 = this.physics.add.sprite(960/2,1960 - 80,'vertical_platform').setOrigin(0,1);
         this.platform3.body.setAllowGravity(false);
         this.platform3.body.setImmovable(true);
         this.platform3.flipX = !this.platform3.flipX;
-        this.platform4 = this.physics.add.sprite(config.width/2 - 250,config.height - 48,'big_platform').setOrigin(0,1);
+        this.platform4 = this.physics.add.sprite(960/2 - 250,1960 - 48,'big_platform').setOrigin(0,1);
         this.platform4.body.setAllowGravity(false);
         this.platform4.body.setImmovable(true);
-        this.platform5 = this.physics.add.sprite(config.width/2 - 266,config.height - 80,'big_platform').setOrigin(0,1);
+        this.platform5 = this.physics.add.sprite(960/2 - 266,1960 - 80,'big_platform').setOrigin(0,1);
         this.platform5.body.setAllowGravity(false);
         this.platform5.body.setImmovable(true);
-        this.platform6 = this.physics.add.sprite(config.width/2 - 282,config.height - 112,'big_platform').setOrigin(0,1);
+        this.platform6 = this.physics.add.sprite(960/2 - 282,1960 - 112,'big_platform').setOrigin(0,1);
         this.platform6.body.setAllowGravity(false);
         this.platform6.body.setImmovable(true);
-        this.bound = this.physics.add.sprite(0,config.height,'left_bound').setOrigin(0,1);
+        this.bound = this.physics.add.sprite(0,1960,'left_bound').setOrigin(0,1);
         this.bound.body.setAllowGravity(false);
         this.bound.body.setImmovable(true);
-        this.powerupplatform = this.physics.add.sprite(128,config.height - 32,'powerup_platform').setOrigin(0,1);
+        this.powerupplatform = this.physics.add.sprite(128,1960 - 32,'powerup_platform').setOrigin(0,1);
         this.powerupplatform.body.setAllowGravity(false);
         this.powerupplatform.body.setImmovable(true);
-        this.doorplat = this.physics.add.sprite(config.width,config.height - 32,'door_platform').setOrigin(1,1);
+        this.doorplat = this.physics.add.sprite(960,1960 - 32,'door_platform').setOrigin(1,1);
         this.doorplat.body.setAllowGravity(false);
         this.doorplat.body.setImmovable(true);
-        this.doorplat1 = this.physics.add.sprite(config.width,0,'door_platform').setOrigin(1,0);
+        this.doorplat1 = this.physics.add.sprite(960,1960-240,'door_platform').setOrigin(1,0);
         this.doorplat1.body.setAllowGravity(false);
         this.doorplat1.body.setImmovable(true);
-        this.platform7 = this.physics.add.sprite(config.width - 32,config.height - 96,'horizontal_platform').setOrigin(1,1);
+        this.platform7 = this.physics.add.sprite(960 - 32,1960 - 96,'horizontal_platform').setOrigin(1,1);
         this.platform7.body.setAllowGravity(false);
         this.platform7.body.setImmovable(true);
+
+        //Room2
+        this.platform8 = this.physics.add.sprite(960,1960 - 48,'big_platform').setOrigin(0,1);
+        this.platform8.body.setAllowGravity(false);
+        this.platform8.body.setImmovable(true);
+        this.platform9 = this.physics.add.sprite(1080,1960 - 135,'plataforma');
+        this.platform9.body.setAllowGravity(false);
+        this.platform9.body.setImmovable(true);
+        this.platform10 = this.physics.add.sprite(1135,1960 - 48,'big_platform').setOrigin(0,1);
+        this.platform10.body.setAllowGravity(false);
+        this.platform10.body.setImmovable(true);
+        this.platform11 = this.physics.add.sprite(1080,1960 - 100,'plataforma');
+        this.platform11.body.setAllowGravity(false);
+        this.platform11.body.setImmovable(true);
+        this.ceiling3 = this.physics.add.sprite(960,1960 - 240,'ceiling3').setOrigin(0,0);
+        this.ceiling3.body.setAllowGravity(false);
+        this.ceiling3.body.setImmovable(true);
+        this.cubeDoor2 = this.physics.add.sprite(1215,1960 - 135,'portalGame');
+        this.cubeDoor2.body.setAllowGravity(false);
+        this.cubeDoor2.body.setImmovable(true);
+        this.doorplat2 = this.physics.add.sprite(1230,1960 - 240,'door_platform').setOrigin(1,0);
+        this.doorplat2.body.setAllowGravity(false);
+        this.doorplat2.body.setImmovable(true);
+        this.doorplat3 = this.physics.add.sprite(1230,1960 - 110,'door_platform').setOrigin(1,0);
+        this.doorplat3.body.setAllowGravity(false);
+        this.doorplat3.body.setImmovable(true);
+
+        //Room3
+        this.ground1 = this.physics.add.sprite(1200,1960,'ground').setOrigin(0,1);
+        this.ground1.body.setAllowGravity(false);
+        this.ground1.body.setImmovable(true);
+        this.ceiling4 = this.physics.add.sprite(1200,1960-240,'ceiling1').setOrigin(0,0);
+        this.ceiling4.body.setAllowGravity(false);
+        this.ceiling4.body.setImmovable(true);
+        this.ceiling5 = this.physics.add.sprite(1725,1960-240,'ceiling3').setOrigin(0,0);
+        this.ceiling5.body.setAllowGravity(false);
+        this.ceiling5.body.setImmovable(true);
+        this.obstacle = this.physics.add.sprite(1600,1960-240,'obstacle').setOrigin(0,0);
+        this.obstacle.body.setAllowGravity(false);
+        this.obstacle.body.setImmovable(true);
+        this.doorplat4 = this.physics.add.sprite(2000,1960 - 32,'door_platform').setOrigin(1,1);
+        this.doorplat4.body.setAllowGravity(false);
+        this.doorplat4.body.setImmovable(true);
+        this.doorplat5 = this.physics.add.sprite(2000,1960-240,'door_platform').setOrigin(1,0);
+        this.doorplat5.body.setAllowGravity(false);
+        this.doorplat5.body.setImmovable(true);
+        this.platform12 = this.physics.add.sprite(2000,1960 - 96,'horizontal_platform').setOrigin(1,1);
+        this.platform12.body.setAllowGravity(false);
+        this.platform12.body.setImmovable(true);
+        this.cubeDoor3 = this.physics.add.sprite(2000,1960 - 135,'portalGame');
+        this.cubeDoor3.body.setAllowGravity(false);
+        this.cubeDoor3.body.setImmovable(true);
 
         this.cursores = this.input.keyboard.createCursorKeys();
 
@@ -187,11 +242,11 @@ class gamePlay extends Phaser.Scene
         this.loadAnimations();
 
 
-        this.door = this.physics.add.sprite(config.width/2 + 440,config.height/2 - 16,'door');
+        this.door = this.physics.add.sprite(960/2 + 440,1960 - 135,'door');
         this.door.body.setAllowGravity(false);
         this.door.body.setImmovable(true);
 
-        this.cubeDoor = this.physics.add.sprite(config.width/2 + 464,config.height/2 - 16,'portalGame');
+        this.cubeDoor = this.physics.add.sprite(960/2 + 464,1960 - 135,'portalGame');
         this.cubeDoor.body.setAllowGravity(false);
         this.cubeDoor.body.setImmovable(true);
 
@@ -202,15 +257,30 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.platform4);
         this.physics.add.collider(this.player, this.platform5);
         this.physics.add.collider(this.player, this.platform6);
+        this.physics.add.collider(this.player, this.platform7);
+        this.physics.add.collider(this.player, this.platform8);
+        this.physics.add.collider(this.player, this.platform9);
+        this.physics.add.collider(this.player, this.platform10);
+        this.physics.add.collider(this.player, this.platform11);
+        this.physics.add.collider(this.player, this.platform12);
+        this.physics.add.collider(this.player, this.obstacle);
         this.physics.add.collider(this.player, this.ground);
+        this.physics.add.collider(this.player, this.ground1);
         this.physics.add.collider(this.player, this.bound);
         this.physics.add.collider(this.player, this.ceiling1);
         this.physics.add.collider(this.player, this.ceiling2);
+        this.physics.add.collider(this.player, this.ceiling3);
+        this.physics.add.collider(this.player, this.ceiling4);
+        this.physics.add.collider(this.player, this.ceiling5);
         this.physics.add.collider(this.player, this.platform4);
         this.physics.add.collider(this.player, this.powerupplatform);
         this.physics.add.collider(this.player, this.platform7);
         this.physics.add.collider(this.player, this.doorplat);
         this.physics.add.collider(this.player, this.doorplat1);
+        this.physics.add.collider(this.player, this.doorplat2);
+        this.physics.add.collider(this.player, this.doorplat3);
+        this.physics.add.collider(this.player, this.doorplat4);
+        this.physics.add.collider(this.player, this.doorplat5);
         this.physics.add.collider(this.player, this.door);
         
 
