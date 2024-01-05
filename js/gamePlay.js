@@ -30,6 +30,8 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('samus_idle','samus_idle.png',{frameWidth:20,frameHeight:32});
         this.load.spritesheet('samus_walk','samus_walk.png',{frameWidth:22,frameHeight:32});
         this.load.spritesheet('samus_jump','samus_jump.png',{frameWidth:18,frameHeight:25});
+        this.load.spritesheet('samus_aim', 'samus_walk_aim.png',{frameWidth: 28, frameHeight: 31});
+        this.load.spritesheet('samus_aim_up', 'samus_walk_aim_up.png',{frameWidth: 21, frameHeight: 38});
         this.load.spritesheet('ball_transform','ball_transform.png',{frameWidth:33,frameHeight:24});
         this.load.spritesheet('ball_walk','ball_walk1.png',{frameWidth:17,frameHeight:32});
         this.load.spritesheet('door','door_anim_reves.png',{frameWidth:17,frameHeight:48});
@@ -180,6 +182,7 @@ class gamePlay extends Phaser.Scene
         
 
         //Disparar
+        this.shooting = false;
         this.lookingLeft = false;
         this.lookingRight = false;
         this.lookingUp = false;
@@ -390,6 +393,7 @@ class gamePlay extends Phaser.Scene
     createBullet()
     {
         //Mirar si hay alguna bala reciclable en la pool
+        this.shooting = true;
         var _bullet = this.bulletPool.getFirst(false);
 
         this.shootPositionX = this.player.x + 8;
@@ -398,7 +402,19 @@ class gamePlay extends Phaser.Scene
         
         if(!_bullet)
         {//Que no? La creo
-
+            if(this.cursores.left.isDown)
+            {
+                this.player.anims.play('ShootHorizontal',true);
+            }
+            else if(this.cursores.right.isDown)
+            {
+                this.player.anims.play('ShootHorizontal',true);
+            }
+            /*else if(this.cursores.up.isDown)
+            {
+                this.player.anims.play('ShootVertical',true);
+            }*/
+            
             if(this.lookingUp == true)
             {
                 this.shootPositionX = this.player.x + 4;
@@ -541,18 +557,49 @@ class gamePlay extends Phaser.Scene
                 repeat: -1
             }
         );
+        this.anims.create(
+            {
+                key: 'ShootHorizontal',
+                frames:this.anims.generateFrameNumbers('samus_aim', {start:0, end: 2}),
+                frameRate: 10,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'ShootVertical',
+                frames:this.anims.generateFrameNumbers('samus_aim_up', {start:0, end: 2}),
+                frameRate: 10,
+                repeat: -1
+            }
+        );
     }
     
     update()
     {
         this.powerup.anims.play('powerup_anim',true);
 
+        if (this.cursores.left.isUp) 
+        {
+            if(this.lookingLeft == true)
+                this.shooting = false;
+        } else if (this.cursores.right.isUp) 
+        {
+            if(this.lookingRight == true)
+                this.shooting = false;
+        }
+        else if (this.cursores.up.isUp) 
+        {
+            if(this.lookingUp == true)
+                this.shooting = false;
+        }
+
         if(this.cursores.left.isDown)
         {
             //this.nave.x -= gamePrefs.NAVE_SPEED;
             this.player.setVelocityX(-gamePrefs.Player_SPEED);
             this.player.setFlipX(true);
-            if(this.player.body.onFloor() && this.player.powerupon == false){
+            if(this.player.body.onFloor() && this.player.powerupon == false && this.shooting == false){
                 this.player.anims.play('walk',true);
             }
             this.lookingLeft = true;
@@ -566,7 +613,7 @@ class gamePlay extends Phaser.Scene
             //this.nave.x += gamePrefs.NAVE_SPEED;
             this.player.setVelocityX(gamePrefs.Player_SPEED);
             this.player.setFlipX(false);
-            if(this.player.body.onFloor() && this.player.powerupon == false){
+            if(this.player.body.onFloor() && this.player.powerupon == false && this.shooting == false){
             this.player.anims.play('walk',true);
             }
             this.lookingRight = true;
