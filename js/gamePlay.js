@@ -52,9 +52,11 @@ class gamePlay extends Phaser.Scene
         this.load.image('powerup_platform','powerup_platform.png');
         this.load.image('door_platform','door_platform.png');
         this.load.image('horizontal_platform','horizontal_platform.png');
+        this.load.image('short_horizontal_platform','short_horizontal_platform.png');
         this.load.image('portalGame','portal.png');
         this.load.image('obstacle','obstacle.png');
         this.load.image('room4_wall','room4_wall.png');
+        this.load.image('room4_platforms','room4_platforms.png');
 
         //enemies
         this.load.spritesheet('spiky1','spiky1_anim.png',{frameWidth:16,frameHeight:16});
@@ -91,7 +93,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(960/2,1960 - 140,'samus_idle');
+        this.player = this.physics.add.sprite(2100,1960 - 140,'samus_idle');
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -224,6 +226,99 @@ class gamePlay extends Phaser.Scene
         this.cubeDoor3.body.setAllowGravity(false);
         this.cubeDoor3.body.setImmovable(true);
 
+        //room4
+        this.room4wall1 = this.physics.add.sprite(1985,1960 - 160,'room4_wall').setOrigin(0,1);
+        this.room4wall1.body.setAllowGravity(false);
+        this.room4wall1.body.setImmovable(true);
+        this.room4wall2 = this.physics.add.sprite(2225,1960,'room4_wall').setOrigin(0,1);
+        this.room4wall2.body.setAllowGravity(false);
+        this.room4wall2.body.setImmovable(true);
+        this.ground2 = this.physics.add.sprite(1600,1960,'ground').setOrigin(0,1);
+        this.ground2.body.setAllowGravity(false);
+        this.ground2.body.setImmovable(true);
+        
+        this.room4platform1 = this.physics.add.sprite(2080,1960 - 150,'horizontal_platform').setOrigin(0,1);
+        this.room4platform1.body.setAllowGravity(false);
+        this.room4platform1.body.setImmovable(true);
+        this.room4platform2 = this.physics.add.sprite(2030,1960 - 220,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform2.body.setAllowGravity(false);
+        this.room4platform2.body.setImmovable(true);
+        this.room4platform3 = this.physics.add.sprite(2150,1960 - 200,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform3.body.setAllowGravity(false);
+        this.room4platform3.body.setImmovable(true);
+        this.room4platform4 = this.physics.add.sprite(2100,1960 - 280,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform4.body.setAllowGravity(false);
+        this.room4platform4.body.setImmovable(true);
+        this.room4platform5 = this.physics.add.sprite(2000,1960 - 320,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform5.body.setAllowGravity(false);
+        this.room4platform5.body.setImmovable(true);
+
+        var offset = 240;
+        this.room4platform6 = this.physics.add.sprite(2080,1960 - 390,'horizontal_platform').setOrigin(0,1);
+        this.room4platform6.body.setAllowGravity(false);
+        this.room4platform6.body.setImmovable(true);
+        this.room4platform7 = this.physics.add.sprite(2030,1960 - 460,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform7.body.setAllowGravity(false);
+        this.room4platform7.body.setImmovable(true);
+        this.room4platform8 = this.physics.add.sprite(2150,1960 - 440,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform8.body.setAllowGravity(false);
+        this.room4platform8.body.setImmovable(true);
+        this.room4platform9 = this.physics.add.sprite(2100,1960 - 520,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform9.body.setAllowGravity(false);
+        this.room4platform9.body.setImmovable(true);
+        this.room4platform10 = this.physics.add.sprite(2000,1960 - 560,'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform10.body.setAllowGravity(false);
+        this.room4platform10.body.setImmovable(true);
+
+        this.room4platform11 = this.physics.add.sprite(2080,1960 - (390 + offset),'horizontal_platform').setOrigin(0,1);
+        this.room4platform11.body.setAllowGravity(false);
+        this.room4platform11.body.setImmovable(true);
+        this.room4platform12 = this.physics.add.sprite(2030,1960 - (460 + offset),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform12.body.setAllowGravity(false);
+        this.room4platform12.body.setImmovable(true);
+        this.room4platform13 = this.physics.add.sprite(2150,1960 - (440 + offset),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform13.body.setAllowGravity(false);
+        this.room4platform13.body.setImmovable(true);
+        this.room4platform14 = this.physics.add.sprite(2100,1960 - (520 + offset),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform14.body.setAllowGravity(false);
+        this.room4platform14.body.setImmovable(true);
+        this.room4platform15 = this.physics.add.sprite(2000,1960 - (560 + offset),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform15.body.setAllowGravity(false);
+        this.room4platform15.body.setImmovable(true);
+
+        this.room4platform16 = this.physics.add.sprite(2080,1960 - (390 + (offset * 2)),'horizontal_platform').setOrigin(0,1);
+        this.room4platform16.body.setAllowGravity(false);
+        this.room4platform16.body.setImmovable(true);
+        this.room4platform17 = this.physics.add.sprite(2030,1960 - (460 + (offset * 2)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform17.body.setAllowGravity(false);
+        this.room4platform17.body.setImmovable(true);
+        this.room4platform18 = this.physics.add.sprite(2150,1960 - (440 + (offset * 2)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform18.body.setAllowGravity(false);
+        this.room4platform18.body.setImmovable(true);
+        this.room4platform19 = this.physics.add.sprite(2100,1960 - (520 + (offset * 2)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform19.body.setAllowGravity(false);
+        this.room4platform19.body.setImmovable(true);
+        this.room4platform20 = this.physics.add.sprite(2000,1960 - (560 + (offset * 2)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform20.body.setAllowGravity(false);
+        this.room4platform20.body.setImmovable(true);
+
+        this.room4platform21 = this.physics.add.sprite(2080,1960 - (390 + (offset * 3)),'horizontal_platform').setOrigin(0,1);
+        this.room4platform21.body.setAllowGravity(false);
+        this.room4platform21.body.setImmovable(true);
+        this.room4platform22 = this.physics.add.sprite(2030,1960 - (460 + (offset * 3)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform22.body.setAllowGravity(false);
+        this.room4platform22.body.setImmovable(true);
+        this.room4platform23 = this.physics.add.sprite(2150,1960 - (440 + (offset * 3)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform23.body.setAllowGravity(false);
+        this.room4platform23.body.setImmovable(true);
+        this.room4platform24 = this.physics.add.sprite(2100,1960 - (520 + (offset * 3)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform24.body.setAllowGravity(false);
+        this.room4platform24.body.setImmovable(true);
+        this.room4platform25 = this.physics.add.sprite(2000,1960 - (560 + (offset * 3)),'short_horizontal_platform').setOrigin(0,1);
+        this.room4platform25.body.setAllowGravity(false);
+        this.room4platform25.body.setImmovable(true);
+
+
         this.cursores = this.input.keyboard.createCursorKeys();
 
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -263,6 +358,7 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.platform10);
         this.physics.add.collider(this.player, this.platform11);
         this.physics.add.collider(this.player, this.platform12);
+        this.physics.add.collider(this.player, this.platforms);
         this.physics.add.collider(this.player, this.obstacle);
         this.physics.add.collider(this.player, this.ground);
         this.physics.add.collider(this.player, this.ground1);
@@ -282,6 +378,32 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.doorplat4);
         this.physics.add.collider(this.player, this.doorplat5);
         this.physics.add.collider(this.player, this.door);
+
+        this.physics.add.collider(this.player, this.room4platform1);
+        this.physics.add.collider(this.player, this.room4platform2);
+        this.physics.add.collider(this.player, this.room4platform3);
+        this.physics.add.collider(this.player, this.room4platform4);
+        this.physics.add.collider(this.player, this.room4platform5);
+        this.physics.add.collider(this.player, this.room4platform6);
+        this.physics.add.collider(this.player, this.room4platform7);
+        this.physics.add.collider(this.player, this.room4platform8);
+        this.physics.add.collider(this.player, this.room4platform9);
+        this.physics.add.collider(this.player, this.room4platform10);
+        this.physics.add.collider(this.player, this.room4platform11);
+        this.physics.add.collider(this.player, this.room4platform12);
+        this.physics.add.collider(this.player, this.room4platform13);
+        this.physics.add.collider(this.player, this.room4platform14);
+        this.physics.add.collider(this.player, this.room4platform15);
+        this.physics.add.collider(this.player, this.room4platform16);
+        this.physics.add.collider(this.player, this.room4platform17);
+        this.physics.add.collider(this.player, this.room4platform18);
+        this.physics.add.collider(this.player, this.room4platform19);
+        this.physics.add.collider(this.player, this.room4platform20);
+        this.physics.add.collider(this.player, this.room4platform21);
+        this.physics.add.collider(this.player, this.room4platform22);
+        this.physics.add.collider(this.player, this.room4platform23);
+        this.physics.add.collider(this.player, this.room4platform24);
+        this.physics.add.collider(this.player, this.room4platform25);
         
 
         this.physics.add.collider(this.player, this.potionPool, this.HealPlayer, null, this);
