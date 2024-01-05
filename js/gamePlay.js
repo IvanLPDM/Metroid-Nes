@@ -180,6 +180,9 @@ class gamePlay extends Phaser.Scene
         
 
         //Disparar
+        this.lookingLeft = false;
+        this.lookingRight = false;
+        this.lookingUp = false;
         this.input.keyboard.on('keydown-D', function (event) {
             this.ShootSoundA.play();
             this.createBullet(); 
@@ -396,14 +399,14 @@ class gamePlay extends Phaser.Scene
         if(!_bullet)
         {//Que no? La creo
 
-            if(this.cursores.up.isDown)
+            if(this.lookingUp == true)
             {
                 this.shootPositionX = this.player.x + 4;
                 this.shootPositionY = this.player.y - 4;
                 this.directionVelocityBulletX = 0;
                 this.directionVelocityBulletY = -300;
             }
-            else if(this.cursores.left.isDown)
+            else if(this.lookingLeft == true)
             {
                 this.shootPositionX = this.player.x - 16;
                 this.shootPositionY = this.player.y - 7;
@@ -413,7 +416,7 @@ class gamePlay extends Phaser.Scene
                 this.directionVelocityBulletX = -300;
                 this.directionVelocityBulletY = 0;
             }
-            else if(this.cursores.right.isDown)
+            else if(this.lookingRight == true)
             {
                 this.shootPositionX = this.player.x + 8;
                 this.shootPositionY = this.player.y - 7;
@@ -429,17 +432,17 @@ class gamePlay extends Phaser.Scene
                 this.bulletPool.add(_bullet);
         }else
         {//Que si? La reciclo
-            if(this.cursores.left.isDown)
+            if(this.lookingLeft)
             {
                 this.shootPositionX = this.player.x - 20;
                 this.shootPositionY = this.player.y - 10;
             }
-            else if(this.cursores.right.isDown)
+            else if(this.lookingRight)
             {
                 this.shootPositionX = this.player.x + 20;
                 this.shootPositionY = this.player.y - 10;
             }
-            else if(this.cursores.up.isDown)
+            else if(this.lookingUp)
             {
                 this.shootPositionX = this.player.x;
                 this.shootPositionY = this.player.y - 20;
@@ -552,10 +555,13 @@ class gamePlay extends Phaser.Scene
             if(this.player.body.onFloor() && this.player.powerupon == false){
                 this.player.anims.play('walk',true);
             }
+            this.lookingLeft = true;
+            this.lookingRight = false;
+            this.lookingUp = false;
             //this.nave.body.setVelocityX(-gamePrefs.NAVE_SPEED);
             //this.player.anims.play('left',true);
-        }else
-        if(this.cursores.right.isDown)
+        }
+        else if(this.cursores.right.isDown)
         {
             //this.nave.x += gamePrefs.NAVE_SPEED;
             this.player.setVelocityX(gamePrefs.Player_SPEED);
@@ -563,8 +569,17 @@ class gamePlay extends Phaser.Scene
             if(this.player.body.onFloor() && this.player.powerupon == false){
             this.player.anims.play('walk',true);
             }
+            this.lookingRight = true;
+            this.lookingLeft = false;
+            this.lookingUp = false;
             //this.nave.body.setVelocityX(gamePrefs.NAVE_SPEED);
             //this.nave.anims.play('right',true);
+        }
+        else if(this.cursores.up.isDown)
+        {
+            this.lookingLeft = false;
+            this.lookingRight = false;
+            this.lookingUp = true;
         }
         else{
 
@@ -574,6 +589,7 @@ class gamePlay extends Phaser.Scene
                 this.player.body.setSize(20,32);
             }
         }
+        
         if(this.cursores.space.isDown && !this.isjumping && this.player.body.onFloor())
         {
             this.JumpSoundA.play();

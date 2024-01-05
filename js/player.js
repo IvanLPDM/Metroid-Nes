@@ -11,6 +11,8 @@ class playerPrefab extends Phaser.GameObjects.Sprite
         this.dead = false;
         this.haspowerup = false;
         this.powerupon = false;
+        this.lookingLeft = false;
+        this.lookingRight = false;
                         
     }
 
