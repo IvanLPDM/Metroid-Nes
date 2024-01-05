@@ -173,7 +173,10 @@ class gamePlay extends Phaser.Scene
 
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        
+        //Camara
+        this.cameras.main.setZoom(1.6);
+        this.cameras.main.setBounds(0,0, config.width,220);
+        this.cameras.main.startFollow(this.player);
         
 
         //Disparar
@@ -293,7 +296,7 @@ class gamePlay extends Phaser.Scene
             targets: this.cameras.main,
             x: destinoX,
             y: destinoY,
-            duration: 6000,
+            duration: 2000,
             ease: 'Power2',
             onComplete: function () {
                 console.log('Animación de desplazamiento hacia la derecha completada.');
