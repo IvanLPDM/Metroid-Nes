@@ -7,22 +7,24 @@ class spikyPinkPrefab extends enemyPrefab
         this.velocityX = 20;
         this.velocityY = 0;
 
+        this.spawnpos = _posX;
+
         this.body.setVelocityX(this.velocityX);
         this.body.setVelocityY(this.velocityY);
     }   
 
     howItPatrols()
     {
-        return (this.body.position.x > config.width - 100 ||this.body.position.x < 50)
+        return (this.body.position.x > 2120 ||this.body.position.x < 2080)
+        
     }
 
     preUpdate(time,delta)
     {
         if(this.howItPatrols())
         {
-            this.direccion *= -1;
+            this.velocityX *= -1;
             this.body.setVelocityX(this.velocityX);
-            this.body.setVelocityY(this.velocityY);
             this.flipX = !this.flipX;
         }
 
