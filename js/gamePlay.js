@@ -95,7 +95,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(2100,1960 - 140,'samus_idle');
+        this.player = this.physics.add.sprite(960/2,1960 - 140,'samus_idle');
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -124,11 +124,8 @@ class gamePlay extends Phaser.Scene
 
         //this.spiky1 = this.physics.add.sprite(config.width/2 + 20,config.height/2,'spiky1');
         
-        this.spiky1 = new spikyPrefab(this,920/2 + 20,1960 - 140,'spiky1').setOrigin(0,1);
-        this.spiky2 = new spikyPinkPrefab(this,920/2 + 60,1960 - 140,'spiky2').setOrigin(0,1);
-        this.bean = new beanPrefab(this,920/2 + 300,1960 - 140 + 40, 'bean1');
+        
         //this.spiky1.setCollideWorldBounds(true);
-        this.bat = new batPrefab(this,920/2 + 40, 1960 - 50,'bat')
 
         this.platform = this.physics.add.sprite(960/2 + 140,1960 - 20,'plataforma');
 //tilemap
@@ -175,6 +172,11 @@ class gamePlay extends Phaser.Scene
         this.platform7 = this.physics.add.sprite(960 - 32,1960 - 96,'horizontal_platform').setOrigin(1,1);
         this.platform7.body.setAllowGravity(false);
         this.platform7.body.setImmovable(true);
+
+        this.spiky1 = new spikyPrefab(this,920/2 + 20,1960 - 140,'spiky1').setOrigin(0,1);
+        this.bat1 = new batPrefab(this,920/2 + 170, 1960 - 200,'bat');
+        this.bat2 = new batPrefab(this,920/2 + 270, 1960 - 200,'bat');
+        this.bat3 = new batPrefab(this,920/2 + 340, 1960 - 200,'bat');
 
         //Room2
         this.platform8 = this.physics.add.sprite(960,1960 - 48,'big_platform').setOrigin(0,1);
@@ -228,6 +230,19 @@ class gamePlay extends Phaser.Scene
         this.cubeDoor3.body.setAllowGravity(false);
         this.cubeDoor3.body.setImmovable(true);
 
+        this.spiky2 = new spikyPrefab(this,1250,1960 - 140,'spiky1').setOrigin(0,1);
+        this.spiky3 = new spikyPrefab(this,1350 + 20,1960 - 140,'spiky1').setOrigin(0,1);
+        this.spiky4 = new spikyPrefab(this,1600 + 20,1960 - 140,'spiky1').setOrigin(0,1);
+        this.spiky5 = new spikyPrefab(this,1700 + 20,1960 - 140,'spiky1').setOrigin(0,1);
+        this.spiky6 = new spikyPrefab(this,1800 + 20,1960 - 140,'spiky1').setOrigin(0,1);
+
+        this.bat4 = new batPrefab(this,1300, 1960 - 200,'bat');
+        this.bat5 = new batPrefab(this,1400, 1960 - 200,'bat');
+        this.bat6 = new batPrefab(this,1470, 1960 - 200,'bat');
+        this.bat7 = new batPrefab(this,1500, 1960 - 200,'bat');
+        this.bat8 = new batPrefab(this,1550, 1960 - 200,'bat');
+        this.bat9 = new batPrefab(this,1590, 1960 - 200,'bat');
+
         //room4
         this.room4wall1 = this.physics.add.sprite(1985,1960 - 160,'room4_wall').setOrigin(0,1);
         this.room4wall1.body.setAllowGravity(false);
@@ -238,7 +253,24 @@ class gamePlay extends Phaser.Scene
         this.ground2 = this.physics.add.sprite(1600,1960,'ground').setOrigin(0,1);
         this.ground2.body.setAllowGravity(false);
         this.ground2.body.setImmovable(true);
-        
+
+        this.bean = new beanPrefab(this,2200,1960 - 175, 'bean1');
+        this.bean1 = new beanPrefab(this,2100,1960 - 250, 'bean1');
+        this.bean2 = new beanPrefab(this,2050,1960 - 325, 'bean1');
+        this.bean3 = new beanPrefab(this,2140,1960 - 400, 'bean1');
+        this.bean4 = new beanPrefab(this,2090,1960 - 480, 'bean1');
+        this.bean5 = new beanPrefab(this,2165,1960 - 570, 'bean1');
+        this.bean6 = new beanPrefab(this,2035,1960 - 660, 'bean1');
+
+        this.bean7 = new beanPrefab(this,2200,1960 - 760, 'bean1');
+        this.bean8 = new beanPrefab(this,2200,1960 - 860, 'bean1');
+        this.bean9 = new beanPrefab(this,2200,1960 - 960, 'bean1');
+        this.bean10 = new beanPrefab(this,2200,1960 - 1080, 'bean1');
+        this.bean11 = new beanPrefab(this,2200,1960 - 1160, 'bean1');
+        this.bean12 = new beanPrefab(this,2200,1960 - 1260, 'bean1');
+        this.bean13 = new beanPrefab(this,2200,1960 - 1360, 'bean1');
+
+        this.spikyp1 = new spikyPinkPrefab(this,2085,1960 - 170,'spiky2').setOrigin(0,1);
         this.room4platform1 = this.physics.add.sprite(2080,1960 - 150,'horizontal_platform').setOrigin(0,1);
         this.room4platform1.body.setAllowGravity(false);
         this.room4platform1.body.setImmovable(true);
@@ -259,6 +291,7 @@ class gamePlay extends Phaser.Scene
         this.room4platform5.body.setImmovable(true);
 
         var offset = 240;
+        this.spikyp2 = new spikyPinkPrefab(this,2085,1960 - 410,'spiky2').setOrigin(0,1);
         this.room4platform6 = this.physics.add.sprite(2080,1960 - 390,'horizontal_platform').setOrigin(0,1);
         this.room4platform6.body.setAllowGravity(false);
         this.room4platform6.body.setImmovable(true);
@@ -275,6 +308,7 @@ class gamePlay extends Phaser.Scene
         this.room4platform10.body.setAllowGravity(false);
         this.room4platform10.body.setImmovable(true);
 
+        this.spikyp3 = new spikyPinkPrefab(this,2085,1960 - 650,'spiky2').setOrigin(0,1);
         this.room4platform11 = this.physics.add.sprite(2080,1960 - (390 + offset),'horizontal_platform').setOrigin(0,1);
         this.room4platform11.body.setAllowGravity(false);
         this.room4platform11.body.setImmovable(true);
@@ -291,6 +325,7 @@ class gamePlay extends Phaser.Scene
         this.room4platform15.body.setAllowGravity(false);
         this.room4platform15.body.setImmovable(true);
 
+        this.spikyp4 = new spikyPinkPrefab(this,2085,1960 - 1500,'spiky2').setOrigin(0,1);
         this.room4platform16 = this.physics.add.sprite(2080,1960 - (390 + (offset * 2)),'horizontal_platform').setOrigin(0,1);
         this.room4platform16.body.setAllowGravity(false);
         this.room4platform16.body.setImmovable(true);
@@ -307,6 +342,7 @@ class gamePlay extends Phaser.Scene
         this.room4platform20.body.setAllowGravity(false);
         this.room4platform20.body.setImmovable(true);
 
+        this.spikyp5 = new spikyPinkPrefab(this,2085,1960 - 1500,'spiky2').setOrigin(0,1);
         this.room4platform21 = this.physics.add.sprite(2080,1960 - (390 + (offset * 3)),'horizontal_platform').setOrigin(0,1);
         this.room4platform21.body.setAllowGravity(false);
         this.room4platform21.body.setImmovable(true);
@@ -329,7 +365,7 @@ class gamePlay extends Phaser.Scene
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         //Camara
-        this.cameras.main.setZoom(1.6);
+        //this.cameras.main.setZoom(1.6);
         this.cameras.main.setBounds(0,0, config.width,220);
         this.cameras.main.startFollow(this.player);
         
@@ -426,27 +462,66 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.spiky1, this.ground);
         this.physics.add.collider(this.spiky1, this.ceiling);
 
+        this.physics.add.collider(this.spiky2, this.ground2);
+        this.physics.add.collider(this.spiky3, this.ground2);
+        this.physics.add.collider(this.spiky4, this.ground2);
+        this.physics.add.collider(this.spiky5, this.ground2);
+        this.physics.add.collider(this.spiky6, this.ground2);
+        this.physics.add.collider(this.spiky2, this.ground1);
+        this.physics.add.collider(this.spiky3, this.ground1);
+        this.physics.add.collider(this.spiky4, this.ground1);
+        this.physics.add.collider(this.spiky5, this.ground1);
+        this.physics.add.collider(this.spiky6, this.ground1);
+
+        this.physics.add.collider(this.spikyp1, this.room4platform1);
+        this.physics.add.collider(this.spikyp2, this.room4platform6);
+        this.physics.add.collider(this.spikyp3, this.room4platform11);
+        this.physics.add.collider(this.spikyp4, this.room4platform16);
+        this.physics.add.collider(this.spikyp5, this.room4platform21);
+
         this.physics.add.collider(this.spiky2, this.platform);
         this.physics.add.collider(this.spiky2, this.ground);
         this.physics.add.collider(this.spiky2, this.ceiling);
 
-        this.physics.add.collider(this.bat, this.platform);
-        this.physics.add.collider(this.bat, this.ground);
-        this.physics.add.collider(this.bat, this.ceiling);
+        this.physics.add.collider(this.bat1, this.ground);
+        this.physics.add.collider(this.bat2, this.ground);
+        this.physics.add.collider(this.bat3, this.ground);
 
 
         
         //Collisions
-        //this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
 
         this.physics.add.overlap(this.player, this.cubeDoor,this.ChangeScene,null,this);
 
         this.physics.add.overlap(this.bulletPool, this.door,this.OpenDoor,null,this);
 
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spiky2,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spiky3,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spiky4,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spiky5,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spiky6,this.DamageSamus,null,this);
 
-        this.physics.add.overlap(this.player, this.bean,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spikyp1,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spikyp2,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spikyp3,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spikyp4,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.spikyp5,this.DamageSamus,null,this);
         
+        this.physics.add.overlap(this.player, this.bean,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean1,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean2,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean3,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean4,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean5,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean6,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean7,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean8,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean9,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean10,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean11,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean12,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bean13,this.DamageSamus,null,this);
 
         this.physics.add.collider(this.spiky1, this.platform);
 
