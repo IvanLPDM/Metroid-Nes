@@ -333,6 +333,7 @@ class gamePlay extends Phaser.Scene
     DamageSamus(player,spiky1){
 
         this.health -= 15;
+        this.HitSoundA.play();
 
          // Aplica una fuerza de retroceso
     var retrocesoX = 200; // Ajusta la fuerza de retroceso en el eje X según sea necesario
