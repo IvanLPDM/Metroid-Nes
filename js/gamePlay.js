@@ -15,6 +15,8 @@ class gamePlay extends Phaser.Scene
         this.load.audio('PickPotionSound', 'assets/sounds/PickPotion.wav');
         this.load.audio('HitEnemySound', 'assets/sounds/HitEnemy.wav');
         this.load.audio('JumpSound', 'assets/sounds/Jump.wav');
+        this.load.audio('RespawnSound', 'assets/sounds/1-02 Samus Aran Fanfare (Mono).mp3');
+        
 
 
         this.cameras.main.setBackgroundColor("0"); 
@@ -36,6 +38,7 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('ball_walk','ball_walk1.png',{frameWidth:17,frameHeight:32});
         this.load.spritesheet('door','door_anim_reves.png',{frameWidth:17,frameHeight:48});
         this.load.spritesheet('reciveDamage','samus_damage.png',{frameWidth:20,frameHeight:32});
+        this.load.spritesheet('respawn','Respawn.png',{frameWidth:16,frameHeight:32});
 
         this.load.spritesheet('powerup','powerup.png',{frameWidth:14,frameHeight:13});
 
@@ -79,6 +82,7 @@ class gamePlay extends Phaser.Scene
 
     create()
     {
+        
         //var hasPowerUp = false;
 
         this.map = this.add.tilemap('metroidplatforms');
@@ -94,7 +98,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(960/2,1960 - 140,'samus_idle');//(2100,1960 - 140,'samus_idle');))////
+        this.player = this.physics.add.sprite(960/2 - 25,1960 - 64,'samus_idle');//(2100,1960 - 140,'samus_idle');))////
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -505,10 +509,14 @@ class gamePlay extends Phaser.Scene
         this.PickPotionSoundA = this.sound.add('PickPotionSound');
         this.HitEnemySoundA = this.sound.add('HitEnemySound');
         this.JumpSoundA = this.sound.add('JumpSound');
+        this.RespawnSound = this.sound.add('RespawnSound');
 
-        this.GameplayTheme.play();
+        this.RespawnSound.play();
         this.levels = 1;
         this.canDamage = true;
+        this.playMusic = false;
+
+        this.animationOnGoing = true;
     }
 
     ChangeScene()
@@ -892,11 +900,37 @@ class gamePlay extends Phaser.Scene
                 repeat: -1
             }
         );
+        this.anims.create(
+            {
+                key: 'RespawnAnim',
+                frames:this.anims.generateFrameNumbers('respawn', {start:3, end:0}),
+                frameRate: 0.5,
+                repeat: -1
+            }
+        );
+
+        
     }
     
     update()
     {
-        this.powerup.anims.play('powerup_anim',true);
+
+        if(this.animationOnGoing)
+        {
+            this.player.anims.play('RespawnAnim', true);
+
+            this.time.delayedCall(6800, () => {
+                this.animationOnGoing = false;
+            }, [], this);
+        }
+        else
+        {
+            if(this.playMusic == false)
+            {
+                this.GameplayTheme.play();
+                this.playMusic = true;
+            }
+            this.powerup.anims.play('powerup_anim',true);
 
         if (this.cursores.left.isUp) 
         {
@@ -987,6 +1021,7 @@ class gamePlay extends Phaser.Scene
             this.player.powerupon = false;
             //this.player.body.setSize(20,32,0,32);
         }
+        }
 
         if(this.levels == 1)
         {
@@ -1003,8 +1038,7 @@ class gamePlay extends Phaser.Scene
         else if(this.levels == 4)
         {
             this.cameras.main.setBounds(1980,0, 200, config.height);
-        }
-        
+        }   
         
         
     }
