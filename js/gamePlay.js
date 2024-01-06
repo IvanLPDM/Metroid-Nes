@@ -240,6 +240,9 @@ class gamePlay extends Phaser.Scene
         this.room4platform1 = this.physics.add.sprite(2080,1960 - 150,'horizontal_platform').setOrigin(0,1);
         this.room4platform1.body.setAllowGravity(false);
         this.room4platform1.body.setImmovable(true);
+        this.room4platform26 = this.physics.add.sprite(2000,1960 - 96,'horizontal_platform').setOrigin(0,1);
+        this.room4platform26.body.setAllowGravity(false);
+        this.room4platform26.body.setImmovable(true);
         this.room4platform2 = this.physics.add.sprite(2030,1960 - 220,'short_horizontal_platform').setOrigin(0,1);
         this.room4platform2.body.setAllowGravity(false);
         this.room4platform2.body.setImmovable(true);
@@ -404,6 +407,9 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.room4platform23);
         this.physics.add.collider(this.player, this.room4platform24);
         this.physics.add.collider(this.player, this.room4platform25);
+        this.physics.add.collider(this.player, this.room4platform26);
+        this.physics.add.collider(this.player, this.room4wall1);
+        this.physics.add.collider(this.player, this.room4wall2);
         
 
         this.physics.add.collider(this.player, this.potionPool, this.HealPlayer, null, this);
