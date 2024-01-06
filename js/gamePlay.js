@@ -35,6 +35,7 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('ball_transform','ball_transform.png',{frameWidth:33,frameHeight:24});
         this.load.spritesheet('ball_walk','ball_walk1.png',{frameWidth:17,frameHeight:32});
         this.load.spritesheet('door','door_anim_reves.png',{frameWidth:17,frameHeight:48});
+        this.load.spritesheet('reciveDamage','samus_damage.png',{frameWidth:20,frameHeight:32});
 
         this.load.spritesheet('powerup','powerup.png',{frameWidth:14,frameHeight:13});
 
@@ -72,14 +73,12 @@ class gamePlay extends Phaser.Scene
         this.load.image('walls_tileset2','tileset_2.png');
         
 
-
         this.isjumping = false;
         
     }
 
     create()
     {
-
         //var hasPowerUp = false;
 
         this.map = this.add.tilemap('metroidplatforms');
@@ -332,6 +331,7 @@ class gamePlay extends Phaser.Scene
         
 
         //Disparar
+        this.health = 100;
         this.shooting = false;
         this.lookingLeft = false;
         this.lookingRight = false;
@@ -507,9 +507,8 @@ class gamePlay extends Phaser.Scene
         this.JumpSoundA = this.sound.add('JumpSound');
 
         this.GameplayTheme.play();
-
-        //Levels
         this.levels = 1;
+        this.canDamage = true;
     }
 
     ChangeScene()
@@ -611,17 +610,48 @@ class gamePlay extends Phaser.Scene
 
     DamageSamus(player,spiky1){
 
-        player.health -= 10;
+        if(this.canDamage)
+        {
+            this.health -= 15;
+            this.HitSoundA.play();
+    
+             // Aplica una fuerza de retroceso
+            var retrocesoX = 200; 
+            var retrocesoY = 200;   
+    
+            player.setVelocity(-retrocesoX, -retrocesoY);
+    
+            this.canDamage = false;
+            this.playerDamageAnimation();
+                
+            if(this.health <= 0)
+            {
+                this.GameplayTheme.stop();
+                this.scene.start('loseScene');
+             }
         
-        if(player.health <= 0)
-        this.scene.start('loseScene');
-        //this.scene.cameras.main.shake(500,0.05);
-        //this.scene.cameras.main.flash(250,255,0,0);  
+                //this.scene.cameras.main.shake(500,0.05);
+                //this.scene.cameras.main.flash(250,255,0,0);  
+        }
+        
     }
+
+    playerDamageAnimation() {
+        this.player.anims.play('ReciveDamageAnim',true);
+    
+        // Configura un temporizador para revertir la animación después de 3 segundos
+        this.time.delayedCall(3000, this.stopDamage, [], this);
+    }
+    
+    stopDamage() {
+        this.canDamage = true;
+    }
+
+    
 
     HealPlayer(player, potion)
     {
-        player.health += 20;
+        this.health += 20;
         potion.destroy();
     }
 
@@ -634,6 +664,7 @@ class gamePlay extends Phaser.Scene
             {
                 this.dropPotion(enemy);
                 enemy.destroy();
+                
             }
         
         }
@@ -850,6 +881,14 @@ class gamePlay extends Phaser.Scene
                 key: 'ShootVertical',
                 frames:this.anims.generateFrameNumbers('samus_aim_up', {start:0, end: 2}),
                 frameRate: 10,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'ReciveDamageAnim',
+                frames:this.anims.generateFrameNumbers('reciveDamage', {start:0, end: 1}),
+                frameRate: 4,
                 repeat: -1
             }
         );
