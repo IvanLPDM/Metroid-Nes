@@ -16,7 +16,7 @@ class startScene extends Phaser.Scene
     }
 
     create() {
-        this.background = this.add.sprite(config.width / 2, config.height, 'bg').setOrigin(0.5, 1);
+        this.background = this.add.sprite(config.width / 2, config.height, 'bg').setOrigin(0.5, 1).setScale(8);
         this.StartSample = this.sound.add('StartAudio');
         this.StartSample.play();
 

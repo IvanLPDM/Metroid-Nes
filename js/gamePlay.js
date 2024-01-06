@@ -95,7 +95,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(2100,1960 - 140,'samus_idle');
+        this.player = this.physics.add.sprite(960/2,1960 - 140,'samus_idle');//(2100,1960 - 140,'samus_idle');))////
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -192,9 +192,7 @@ class gamePlay extends Phaser.Scene
         this.ceiling3 = this.physics.add.sprite(960,1960 - 240,'ceiling3').setOrigin(0,0);
         this.ceiling3.body.setAllowGravity(false);
         this.ceiling3.body.setImmovable(true);
-        this.cubeDoor2 = this.physics.add.sprite(1215,1960 - 135,'portalGame');
-        this.cubeDoor2.body.setAllowGravity(false);
-        this.cubeDoor2.body.setImmovable(true);
+        
         this.doorplat2 = this.physics.add.sprite(1230,1960 - 240,'door_platform').setOrigin(1,0);
         this.doorplat2.body.setAllowGravity(false);
         this.doorplat2.body.setImmovable(true);
@@ -329,8 +327,7 @@ class gamePlay extends Phaser.Scene
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         //Camara
-        this.cameras.main.setZoom(1.6);
-        this.cameras.main.setBounds(0,0, config.width,220);
+        this.cameras.main.setZoom(9);
         this.cameras.main.startFollow(this.player);
         
 
@@ -348,7 +345,7 @@ class gamePlay extends Phaser.Scene
 
         this.loadAnimations();
 
-
+        //ROOM1
         this.door = this.physics.add.sprite(960/2 + 440,1960 - 135,'door');
         this.door.body.setAllowGravity(false);
         this.door.body.setImmovable(true);
@@ -356,6 +353,25 @@ class gamePlay extends Phaser.Scene
         this.cubeDoor = this.physics.add.sprite(960/2 + 464,1960 - 135,'portalGame');
         this.cubeDoor.body.setAllowGravity(false);
         this.cubeDoor.body.setImmovable(true);
+        //ROOM2
+        this.door2 = this.physics.add.sprite(960/2 + 712,1960 - 135,'door');
+        this.door2.body.setAllowGravity(false);
+        this.door2.body.setImmovable(true);
+
+        this.cubeDoor1 = this.physics.add.sprite(960/2 + 736,1960 - 135,'portalGame');
+        this.cubeDoor1.body.setAllowGravity(false);
+        this.cubeDoor1.body.setImmovable(true);
+        //ROOM3
+        this.door3 = this.physics.add.sprite(960/2 + 1482,1960 - 135,'door');
+        this.door3.body.setAllowGravity(false);
+        this.door3.body.setImmovable(true);
+
+        this.cubeDoor2 = this.physics.add.sprite(960/2 + 1506,1960 - 135,'portalGame');
+        this.cubeDoor2.body.setAllowGravity(false);
+        this.cubeDoor2.body.setImmovable(true);
+
+
+        
 
 
         this.physics.add.collider(this.player, this.platform);
@@ -390,6 +406,8 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.doorplat4);
         this.physics.add.collider(this.player, this.doorplat5);
         this.physics.add.collider(this.player, this.door);
+        this.physics.add.collider(this.player, this.door2);
+        this.physics.add.collider(this.player, this.door3);
 
         this.physics.add.collider(this.player, this.room4platform1);
         this.physics.add.collider(this.player, this.room4platform2);
@@ -440,8 +458,12 @@ class gamePlay extends Phaser.Scene
         //this.physics.add.collider(this.player, this.spiky1,this.DamageSamus,null,this);
 
         this.physics.add.overlap(this.player, this.cubeDoor,this.ChangeScene,null,this);
+        this.physics.add.overlap(this.player, this.cubeDoor1,this.ChangeScene_2_3,null,this);
+        this.physics.add.overlap(this.player, this.cubeDoor2,this.ChangeScene_3_4,null,this);
 
         this.physics.add.overlap(this.bulletPool, this.door,this.OpenDoor,null,this);
+        this.physics.add.overlap(this.bulletPool, this.door2,this.OpenDoor,null,this);
+        this.physics.add.overlap(this.bulletPool, this.door3,this.OpenDoor,null,this);
 
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
 
@@ -485,11 +507,19 @@ class gamePlay extends Phaser.Scene
         this.JumpSoundA = this.sound.add('JumpSound');
 
         this.GameplayTheme.play();
+
+        //Levels
+        this.levels = 1;
     }
 
     ChangeScene()
     {
-        const camX = this.cameras.main.scrollX;
+        this.levels = 2;
+    }
+
+    ChangeScene_2_3()
+    {
+        /*const camX = this.cameras.main.scrollX;
         const camY = this.cameras.main.scrollY;
 
         const destinoX = camX - 940;
@@ -505,19 +535,71 @@ class gamePlay extends Phaser.Scene
             onComplete: function () {
                 console.log('Animación de desplazamiento hacia la derecha completada.');
             }
-        });
+        });*/
+        
+        this.levels = 3;
+        
+    }
+
+    ChangeScene_3_4()
+    {
+        /*const camX = this.cameras.main.scrollX;
+        const camY = this.cameras.main.scrollY;
+
+        const destinoX = camX - 940;
+        const destinoY = camY;
+
+        // Crear un objeto tween para desplazar la cámara
+        this.tweens.add({
+            targets: this.cameras.main,
+            x: destinoX,
+            y: destinoY,
+            duration: 2000,
+            ease: 'Power2',
+            onComplete: function () {
+                console.log('Animación de desplazamiento hacia la derecha completada.');
+            }
+        });*/
+        
+        this.levels = 4;
+        
     }
 
     OpenDoor()
     {
-        this.door.anims.play('OpenDoor',true);
-        this.time.delayedCall(500, this.destruirPuerta, [], this);
+        if(this.levels == 1)
+        {
+            this.door.anims.play('OpenDoor',true);
+            this.time.delayedCall(500, this.destruirPuerta, [], this);
+        }
+        else if(this.levels == 2)
+        {
+            this.door2.anims.play('OpenDoor',true);
+            this.time.delayedCall(500, this.destruirPuerta, [], this);
+        }
+        else if(this.levels == 3)
+        {
+            this.door3.anims.play('OpenDoor',true);
+            this.time.delayedCall(500, this.destruirPuerta, [], this);
+        }
         
     }
 
     destruirPuerta()
     {
-        this.door.destroy();
+        if(this.levels == 1)
+        {
+            this.door.destroy();
+        }
+        else if(this.levels == 2)
+        {
+            this.door2.destroy();
+        }
+        else if(this.levels == 3)
+        {
+            this.door3.destroy();
+        }
+        
     }
 
     GetPowerUp(powerup, player){
@@ -866,6 +948,24 @@ class gamePlay extends Phaser.Scene
             this.player.powerupon = false;
             //this.player.body.setSize(20,32,0,32);
         }
+
+        if(this.levels == 1)
+        {
+            this.cameras.main.setBounds(0,1600, 950, 375);
+        }
+        else if(this.levels == 2)
+        {
+            this.cameras.main.setBounds(950,1600, 200, 375);
+        }
+        else if(this.levels == 3)
+        {
+            this.cameras.main.setBounds(1200,1600, 780, 375);
+        }
+        else if(this.levels == 4)
+        {
+            this.cameras.main.setBounds(1980,0, 200, config.height);
+        }
+        
         
         
     }
