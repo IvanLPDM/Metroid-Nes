@@ -14,8 +14,8 @@ var gamePrefs=
 var config = 
 {
     type: Phaser.AUTO,
-    width: 960,
-    height: 240,
+    width: 2400,
+    height: 1960,//240
     scene:[startScene, gamePlay, loseScene], //array con las escenas
     render:
     {
