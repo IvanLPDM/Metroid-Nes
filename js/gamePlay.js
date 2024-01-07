@@ -44,7 +44,11 @@ class gamePlay extends Phaser.Scene
 
         //ui
         this.load.image('Energy','Energy.png');
+        
+        this.load.setPath('assets/img/Fonts');
+        this.load.bitmapFont("UIFont",'gameFont.png','gameFont.xml');
 
+        this.load.setPath('assets/img/sprites');
         this.load.image('plataforma','platform.png');
         this.load.image('ground','ground.png');
         this.load.image('potion','heal_drop.png');
@@ -105,9 +109,9 @@ class gamePlay extends Phaser.Scene
         this.powerup = this.physics.add.sprite(137,1960 - 90,'powerup');
         this.powerup.body.setAllowGravity(false);
 
-        this.energyUI = this.add.sprite(130,30,'Energy')
+        this.energyUI = this.add.sprite(this.player.body.position.x - 50, this.player.body.position.y - 100,'Energy')
         .setOrigin(1,0)
-        .setScale(2)
+        .setScale(1)
         .setDepth(1);
 
         this.energy = 100;
@@ -1106,6 +1110,7 @@ class gamePlay extends Phaser.Scene
             this.lookingRight = true;
             this.lookingLeft = false;
             this.lookingUp = false;
+
             //this.nave.body.setVelocityX(gamePrefs.NAVE_SPEED);
             //this.nave.anims.play('right',true);
         }
@@ -1144,7 +1149,7 @@ class gamePlay extends Phaser.Scene
             if(this.player.body.onFloor()){
                 
                 this.player.anims.play('ball_walk_anim',true);
-                this.player.body.setSize(20,13);
+                this.player.body.setSize(16,16).setOffset(8,16);
                 this.player.powerupon = true;
             }
             
