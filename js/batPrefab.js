@@ -17,7 +17,7 @@ class batPrefab extends enemyPrefab
         if(this.bathowItPatrols()){
 
             this.body.setVelocityY(gamePrefs.ENEMY_SPEED + 100);
-            this.anims.play("bat_anim",true);
+            //this.anims.play("bat_anim",true);
         }
         super.preUpdate(time, delta);
     }
