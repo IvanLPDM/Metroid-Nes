@@ -512,9 +512,14 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.bat1, this.ground);
         this.physics.add.collider(this.bat2, this.ground);
         this.physics.add.collider(this.bat3, this.ground);
+        this.physics.add.collider(this.bat4, this.ground1);
+        this.physics.add.collider(this.bat4, this.ground2);
         this.physics.add.collider(this.bat5, this.ground1);
         this.physics.add.collider(this.bat6, this.ground1);
         this.physics.add.collider(this.bat7, this.ground1);
+        this.physics.add.collider(this.bat5, this.ground2);
+        this.physics.add.collider(this.bat6, this.ground2);
+        this.physics.add.collider(this.bat7, this.ground2);
         this.physics.add.collider(this.bat8, this.ground1);
         this.physics.add.collider(this.bat9, this.ground1);
 
@@ -821,7 +826,11 @@ class gamePlay extends Phaser.Scene
 
             if(enemy.health <= 0)
             {
-                this.dropPotion(enemy);
+                var randomnumber = Phaser.Math.RND.between(1,3);
+                if(randomnumber == 1){
+
+                    this.dropPotion(enemy);
+                }
                 enemy.destroy();
                 
             }
