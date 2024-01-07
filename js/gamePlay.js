@@ -15,6 +15,8 @@ class gamePlay extends Phaser.Scene
         this.load.audio('PickPotionSound', 'assets/sounds/PickPotion.wav');
         this.load.audio('HitEnemySound', 'assets/sounds/HitEnemy.wav');
         this.load.audio('JumpSound', 'assets/sounds/Jump.wav');
+        this.load.audio('RespawnSound', 'assets/sounds/1-02 Samus Aran Fanfare (Mono).mp3');
+        
 
 
         this.cameras.main.setBackgroundColor("0"); 
@@ -35,6 +37,8 @@ class gamePlay extends Phaser.Scene
         this.load.spritesheet('ball_transform','ball_transform.png',{frameWidth:33,frameHeight:24});
         this.load.spritesheet('ball_walk','ball_walk1.png',{frameWidth:17,frameHeight:32});
         this.load.spritesheet('door','door_anim_reves.png',{frameWidth:17,frameHeight:48});
+        this.load.spritesheet('reciveDamage','samus_damage.png',{frameWidth:20,frameHeight:32});
+        this.load.spritesheet('respawn','Respawn.png',{frameWidth:16,frameHeight:32});
 
         this.load.spritesheet('powerup','powerup.png',{frameWidth:14,frameHeight:13});
 
@@ -72,14 +76,13 @@ class gamePlay extends Phaser.Scene
         this.load.image('walls_tileset2','tileset_2.png');
         
 
-
         this.isjumping = false;
         
     }
 
     create()
     {
-
+        
         //var hasPowerUp = false;
 
         this.map = this.add.tilemap('metroidplatforms');
@@ -95,7 +98,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(960/2,1960 - 140,'samus_idle');
+        this.player = this.physics.add.sprite(960/2 - 25,1960 - 64,'samus_idle');//(2100,1960 - 140,'samus_idle');))////
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -194,9 +197,7 @@ class gamePlay extends Phaser.Scene
         this.ceiling3 = this.physics.add.sprite(960,1960 - 240,'ceiling3').setOrigin(0,0);
         this.ceiling3.body.setAllowGravity(false);
         this.ceiling3.body.setImmovable(true);
-        this.cubeDoor2 = this.physics.add.sprite(1215,1960 - 135,'portalGame');
-        this.cubeDoor2.body.setAllowGravity(false);
-        this.cubeDoor2.body.setImmovable(true);
+        
         this.doorplat2 = this.physics.add.sprite(1230,1960 - 240,'door_platform').setOrigin(1,0);
         this.doorplat2.body.setAllowGravity(false);
         this.doorplat2.body.setImmovable(true);
@@ -365,12 +366,12 @@ class gamePlay extends Phaser.Scene
         this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         //Camara
-        //this.cameras.main.setZoom(1.6);
-        this.cameras.main.setBounds(0,0, config.width,220);
+        this.cameras.main.setZoom(9);
         this.cameras.main.startFollow(this.player);
         
 
         //Disparar
+        this.health = 100;
         this.shooting = false;
         this.lookingLeft = false;
         this.lookingRight = false;
@@ -384,7 +385,7 @@ class gamePlay extends Phaser.Scene
 
         this.loadAnimations();
 
-
+        //ROOM1
         this.door = this.physics.add.sprite(960/2 + 440,1960 - 135,'door');
         this.door.body.setAllowGravity(false);
         this.door.body.setImmovable(true);
@@ -392,6 +393,25 @@ class gamePlay extends Phaser.Scene
         this.cubeDoor = this.physics.add.sprite(960/2 + 464,1960 - 135,'portalGame');
         this.cubeDoor.body.setAllowGravity(false);
         this.cubeDoor.body.setImmovable(true);
+        //ROOM2
+        this.door2 = this.physics.add.sprite(960/2 + 712,1960 - 135,'door');
+        this.door2.body.setAllowGravity(false);
+        this.door2.body.setImmovable(true);
+
+        this.cubeDoor1 = this.physics.add.sprite(960/2 + 736,1960 - 135,'portalGame');
+        this.cubeDoor1.body.setAllowGravity(false);
+        this.cubeDoor1.body.setImmovable(true);
+        //ROOM3
+        this.door3 = this.physics.add.sprite(960/2 + 1482,1960 - 135,'door');
+        this.door3.body.setAllowGravity(false);
+        this.door3.body.setImmovable(true);
+
+        this.cubeDoor2 = this.physics.add.sprite(960/2 + 1506,1960 - 135,'portalGame');
+        this.cubeDoor2.body.setAllowGravity(false);
+        this.cubeDoor2.body.setImmovable(true);
+
+
+        
 
 
         this.physics.add.collider(this.player, this.platform);
@@ -426,6 +446,8 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.player, this.doorplat4);
         this.physics.add.collider(this.player, this.doorplat5);
         this.physics.add.collider(this.player, this.door);
+        this.physics.add.collider(this.player, this.door2);
+        this.physics.add.collider(this.player, this.door3);
 
         this.physics.add.collider(this.player, this.room4platform1);
         this.physics.add.collider(this.player, this.room4platform2);
@@ -492,8 +514,12 @@ class gamePlay extends Phaser.Scene
         //Collisions
 
         this.physics.add.overlap(this.player, this.cubeDoor,this.ChangeScene,null,this);
+        this.physics.add.overlap(this.player, this.cubeDoor1,this.ChangeScene_2_3,null,this);
+        this.physics.add.overlap(this.player, this.cubeDoor2,this.ChangeScene_3_4,null,this);
 
         this.physics.add.overlap(this.bulletPool, this.door,this.OpenDoor,null,this);
+        this.physics.add.overlap(this.bulletPool, this.door2,this.OpenDoor,null,this);
+        this.physics.add.overlap(this.bulletPool, this.door3,this.OpenDoor,null,this);
 
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spiky2,this.DamageSamus,null,this);
@@ -558,13 +584,24 @@ class gamePlay extends Phaser.Scene
         this.PickPotionSoundA = this.sound.add('PickPotionSound');
         this.HitEnemySoundA = this.sound.add('HitEnemySound');
         this.JumpSoundA = this.sound.add('JumpSound');
+        this.RespawnSound = this.sound.add('RespawnSound');
 
-        this.GameplayTheme.play();
+        this.RespawnSound.play();
+        this.levels = 1;
+        this.canDamage = true;
+        this.playMusic = false;
+
+        this.animationOnGoing = true;
     }
 
     ChangeScene()
     {
-        const camX = this.cameras.main.scrollX;
+        this.levels = 2;
+    }
+
+    ChangeScene_2_3()
+    {
+        /*const camX = this.cameras.main.scrollX;
         const camY = this.cameras.main.scrollY;
 
         const destinoX = camX - 940;
@@ -580,19 +617,71 @@ class gamePlay extends Phaser.Scene
             onComplete: function () {
                 console.log('Animación de desplazamiento hacia la derecha completada.');
             }
-        });
+        });*/
+        
+        this.levels = 3;
+        
+    }
+
+    ChangeScene_3_4()
+    {
+        /*const camX = this.cameras.main.scrollX;
+        const camY = this.cameras.main.scrollY;
+
+        const destinoX = camX - 940;
+        const destinoY = camY;
+
+        // Crear un objeto tween para desplazar la cámara
+        this.tweens.add({
+            targets: this.cameras.main,
+            x: destinoX,
+            y: destinoY,
+            duration: 2000,
+            ease: 'Power2',
+            onComplete: function () {
+                console.log('Animación de desplazamiento hacia la derecha completada.');
+            }
+        });*/
+        
+        this.levels = 4;
+        
     }
 
     OpenDoor()
     {
-        this.door.anims.play('OpenDoor',true);
-        this.time.delayedCall(500, this.destruirPuerta, [], this);
+        if(this.levels == 1)
+        {
+            this.door.anims.play('OpenDoor',true);
+            this.time.delayedCall(500, this.destruirPuerta, [], this);
+        }
+        else if(this.levels == 2)
+        {
+            this.door2.anims.play('OpenDoor',true);
+            this.time.delayedCall(500, this.destruirPuerta, [], this);
+        }
+        else if(this.levels == 3)
+        {
+            this.door3.anims.play('OpenDoor',true);
+            this.time.delayedCall(500, this.destruirPuerta, [], this);
+        }
         
     }
 
     destruirPuerta()
     {
-        this.door.destroy();
+        if(this.levels == 1)
+        {
+            this.door.destroy();
+        }
+        else if(this.levels == 2)
+        {
+            this.door2.destroy();
+        }
+        else if(this.levels == 3)
+        {
+            this.door3.destroy();
+        }
+        
     }
 
     GetPowerUp(powerup, player){
@@ -604,17 +693,48 @@ class gamePlay extends Phaser.Scene
 
     DamageSamus(player,spiky1){
 
-        player.health -= 10;
+        if(this.canDamage)
+        {
+            this.health -= 15;
+            this.HitSoundA.play();
+    
+             // Aplica una fuerza de retroceso
+            var retrocesoX = 200; 
+            var retrocesoY = 200;   
+    
+            player.setVelocity(-retrocesoX, -retrocesoY);
+    
+            this.canDamage = false;
+            this.playerDamageAnimation();
+                
+            if(this.health <= 0)
+            {
+                this.GameplayTheme.stop();
+                this.scene.start('loseScene');
+             }
         
-        if(player.health <= 0)
-        this.scene.start('loseScene');
-        //this.scene.cameras.main.shake(500,0.05);
-        //this.scene.cameras.main.flash(250,255,0,0);  
+                //this.scene.cameras.main.shake(500,0.05);
+                //this.scene.cameras.main.flash(250,255,0,0);  
+        }
+        
     }
+
+    playerDamageAnimation() {
+        this.player.anims.play('ReciveDamageAnim',true);
+    
+        // Configura un temporizador para revertir la animación después de 3 segundos
+        this.time.delayedCall(3000, this.stopDamage, [], this);
+    }
+    
+    stopDamage() {
+        this.canDamage = true;
+    }
+
+    
 
     HealPlayer(player, potion)
     {
-        player.health += 20;
+        this.health += 20;
         potion.destroy();
     }
 
@@ -627,6 +747,7 @@ class gamePlay extends Phaser.Scene
             {
                 this.dropPotion(enemy);
                 enemy.destroy();
+                
             }
         
         }
@@ -846,11 +967,45 @@ class gamePlay extends Phaser.Scene
                 repeat: -1
             }
         );
+        this.anims.create(
+            {
+                key: 'ReciveDamageAnim',
+                frames:this.anims.generateFrameNumbers('reciveDamage', {start:0, end: 1}),
+                frameRate: 4,
+                repeat: -1
+            }
+        );
+        this.anims.create(
+            {
+                key: 'RespawnAnim',
+                frames:this.anims.generateFrameNumbers('respawn', {start:3, end:0}),
+                frameRate: 0.5,
+                repeat: -1
+            }
+        );
+
+        
     }
     
     update()
     {
-        this.powerup.anims.play('powerup_anim',true);
+
+        if(this.animationOnGoing)
+        {
+            this.player.anims.play('RespawnAnim', true);
+
+            this.time.delayedCall(6800, () => {
+                this.animationOnGoing = false;
+            }, [], this);
+        }
+        else
+        {
+            if(this.playMusic == false)
+            {
+                this.GameplayTheme.play();
+                this.playMusic = true;
+            }
+            this.powerup.anims.play('powerup_anim',true);
 
         if (this.cursores.left.isUp) 
         {
@@ -941,6 +1096,24 @@ class gamePlay extends Phaser.Scene
             this.player.powerupon = false;
             //this.player.body.setSize(20,32,0,32);
         }
+        }
+
+        if(this.levels == 1)
+        {
+            this.cameras.main.setBounds(0,1600, 950, 375);
+        }
+        else if(this.levels == 2)
+        {
+            this.cameras.main.setBounds(950,1600, 200, 375);
+        }
+        else if(this.levels == 3)
+        {
+            this.cameras.main.setBounds(1200,1600, 780, 375);
+        }
+        else if(this.levels == 4)
+        {
+            this.cameras.main.setBounds(1980,0, 200, config.height);
+        }   
         
         
     }
