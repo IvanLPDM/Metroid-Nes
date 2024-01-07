@@ -410,10 +410,7 @@ class gamePlay extends Phaser.Scene
         this.cubeDoor2.body.setAllowGravity(false);
         this.cubeDoor2.body.setImmovable(true);
 
-
-        
-
-
+        //collisions player-platforms
         this.physics.add.collider(this.player, this.platform);
         this.physics.add.collider(this.player, this.platform2);
         this.physics.add.collider(this.player, this.platform3);
@@ -501,17 +498,18 @@ class gamePlay extends Phaser.Scene
         this.physics.add.collider(this.spikyp4, this.room4platform16);
         this.physics.add.collider(this.spikyp5, this.room4platform21);
 
-        this.physics.add.collider(this.spiky2, this.platform);
-        this.physics.add.collider(this.spiky2, this.ground);
-        this.physics.add.collider(this.spiky2, this.ceiling);
-
         this.physics.add.collider(this.bat1, this.ground);
         this.physics.add.collider(this.bat2, this.ground);
         this.physics.add.collider(this.bat3, this.ground);
+        this.physics.add.collider(this.bat5, this.ground1);
+        this.physics.add.collider(this.bat6, this.ground1);
+        this.physics.add.collider(this.bat7, this.ground1);
+        this.physics.add.collider(this.bat8, this.ground1);
+        this.physics.add.collider(this.bat9, this.ground1);
 
 
         
-        //Collisions
+        //Collisions player-enemies
 
         this.physics.add.overlap(this.player, this.cubeDoor,this.ChangeScene,null,this);
         this.physics.add.overlap(this.player, this.cubeDoor1,this.ChangeScene_2_3,null,this);
@@ -521,19 +519,30 @@ class gamePlay extends Phaser.Scene
         this.physics.add.overlap(this.bulletPool, this.door2,this.OpenDoor,null,this);
         this.physics.add.overlap(this.bulletPool, this.door3,this.OpenDoor,null,this);
 
+        //spiky
         this.physics.add.overlap(this.player, this.spiky1,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spiky2,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spiky3,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spiky4,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spiky5,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spiky6,this.DamageSamus,null,this);
-
+        //spikyp
         this.physics.add.overlap(this.player, this.spikyp1,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spikyp2,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spikyp3,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spikyp4,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.spikyp5,this.DamageSamus,null,this);
-        
+        //bat
+        this.physics.add.overlap(this.player, this.bat1,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat2,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat3,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat4,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat5,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat6,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat7,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat8,this.DamageSamus,null,this);
+        this.physics.add.overlap(this.player, this.bat9,this.DamageSamus,null,this);
+        //bean
         this.physics.add.overlap(this.player, this.bean,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.bean1,this.DamageSamus,null,this);
         this.physics.add.overlap(this.player, this.bean2,this.DamageSamus,null,this);
@@ -551,28 +560,78 @@ class gamePlay extends Phaser.Scene
 
         this.physics.add.collider(this.spiky1, this.platform);
 
-        this.physics.add.collider(this.bean, this.platform);
-        this.physics.add.collider(this.bean, this.platform2);
-        this.physics.add.collider(this.bean, this.platform3);
-        this.physics.add.collider(this.bean, this.platform4);
-        this.physics.add.collider(this.bean, this.platform5);
-        this.physics.add.collider(this.bean, this.platform6);
-        this.physics.add.collider(this.bean, this.ground);
-        this.physics.add.collider(this.bean, this.bound);
-        this.physics.add.collider(this.bean, this.ceiling1);
-        this.physics.add.collider(this.bean, this.ceiling2);
-        this.physics.add.collider(this.bean, this.platform4);
-        this.physics.add.collider(this.bean, this.powerupplatform);
-        this.physics.add.collider(this.bean, this.platform7);
-        this.physics.add.collider(this.bean, this.doorplat);
-        this.physics.add.collider(this.bean, this.doorplat1);
-        this.physics.add.collider(this.bean, this.door);
-
-        this.physics.add.overlap(this.bulletPool, this.bat,this.DamageEnemy,null,this);
-        
-        this.physics.add.collider(this.bulletPool, this.bat,this.DamageEnemy,null,this);
-
+        //spiky
+        this.physics.add.overlap(this.bulletPool, this.spiky1,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spiky1,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spiky2,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spiky2,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spiky3,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spiky3,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spiky4,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spiky4,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spiky5,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spiky5,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spiky6,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spiky6,this.DamageEnemy,null,this);
+        //spikyp
+        this.physics.add.overlap(this.bulletPool, this.spikyp1,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spikyp1,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spikyp2,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spikyp2,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spikyp3,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spikyp3,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spikyp4,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spikyp4,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.spikyp5,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.spikyp5,this.DamageEnemy,null,this);
+        //bat
+        this.physics.add.overlap(this.bulletPool, this.bat1,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat1,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat2,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat2,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat3,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat3,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat4,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat4,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat5,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat5,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat6,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat6,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat7,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat7,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat8,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat8,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bat9,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bat9,this.DamageEnemy,null,this);
+        //bean
         this.physics.add.overlap(this.bulletPool, this.bean,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean1,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean1,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean2,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean2,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean3,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean3,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean4,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean4,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean5,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean5,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean6,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean6,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean7,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean7,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean8,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean8,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean9,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean9,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean10,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean10,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean11,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean11,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean12,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean12,this.DamageEnemy,null,this);
+        this.physics.add.overlap(this.bulletPool, this.bean13,this.DamageEnemy,null,this);
+        this.physics.add.collider(this.bulletPool, this.bean13,this.DamageEnemy,null,this);
         
         this.physics.add.overlap(this.powerup,this.player,this.GetPowerUp,null,this);
 
