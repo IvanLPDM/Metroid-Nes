@@ -1,3 +1,4 @@
+
 var gamePrefs=
 {
     Player_SPEED:100,
@@ -14,9 +15,9 @@ var gamePrefs=
 var config = 
 {
     type: Phaser.AUTO,
-    width: 960,
-    height: 240,
-    scene:[startScene, gamePlay, loseScene], //array con las escenas
+    width: 2400,
+    height: 1960,//240
+    scene:[startScene, gamePlay, loseScene, ui], //array con las escenas
     render:
     {
         pixelArt:true
