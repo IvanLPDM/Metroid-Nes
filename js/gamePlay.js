@@ -971,7 +971,7 @@ class gamePlay extends Phaser.Scene
         this.anims.create(
             {
                 key: 'ShootVertical',
-                frames:this.anims.generateFrameNumbers('samus_aim_up', {start:0, end: 2}),
+                frames:this.anims.generateFrameNumbers('samus_aim_up', {start:0, end: 0}),
                 frameRate: 10,
                 repeat: -1
             }
@@ -1062,6 +1062,8 @@ class gamePlay extends Phaser.Scene
         }
         else if(this.cursores.up.isDown)
         {
+            if(this.player.body.onFloor() && this.player.powerupon == false && this.shooting == false)
+                this.player.anims.play('ShootVertical',true);
             this.lookingLeft = false;
             this.lookingRight = false;
             this.lookingUp = true;
