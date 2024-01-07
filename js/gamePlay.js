@@ -98,7 +98,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.(960/2 - 25,1960 - 64,'samus_idle');//sprite(2100,1960 - 140,'samus_idle');////////////
+        this.player = this.physics.add.sprite(960/2 - 25,1960 - 64,'samus_idle');//sprite(2100,1960 - 140,'samus_idle');////////////
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -590,7 +590,7 @@ class gamePlay extends Phaser.Scene
         this.RespawnSound = this.sound.add('RespawnSound');
 
         this.RespawnSound.play();
-        this.levels = 4;
+        this.levels = 1;
         this.canDamage = true;
         this.playMusic = false;
 
