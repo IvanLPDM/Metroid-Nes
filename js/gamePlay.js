@@ -82,7 +82,7 @@ class gamePlay extends Phaser.Scene
 
     create()
     {
-        
+        var offset = 240;
         //var hasPowerUp = false;
 
         this.map = this.add.tilemap('metroidplatforms');
@@ -98,7 +98,7 @@ class gamePlay extends Phaser.Scene
 
         //this.map.createLayer('capa de patrones 1', tileset);
 
-        this.player = this.physics.add.sprite(960/2 - 25,1960 - 64,'samus_idle');//(2100,1960 - 140,'samus_idle');))////
+        this.player = this.physics.add.sprite(2100,1960 - 140,'samus_idle');//(960/2 - 25,1960 - 64,'samus_idle');//////////
         //this.player = new playerPrefab(config.width/2,config.height/2,'samus_idle');
         this.player.setCollideWorldBounds(true);
 
@@ -106,7 +106,7 @@ class gamePlay extends Phaser.Scene
         this.powerup.body.setAllowGravity(false);
 
         this.energyUI = this.add.sprite(130,30,'Energy')
-        .setOrigin(1,0)
+        .setOrigin(1,1900)
         .setScale(2)
         .setDepth(1);
 
@@ -255,6 +255,10 @@ class gamePlay extends Phaser.Scene
         this.ground2.body.setAllowGravity(false);
         this.ground2.body.setImmovable(true);
 
+        this.finish = this.physics.add.sprite(2100,1960 - 1340,'powerup').setOrigin(0,1);
+        this.finish.body.setAllowGravity(false);
+        this.finish.body.setImmovable(true);
+
         this.bean = new beanPrefab(this,2200,1960 - 175, 'bean1');
         this.bean1 = new beanPrefab(this,2100,1960 - 250, 'bean1');
         this.bean2 = new beanPrefab(this,2050,1960 - 325, 'bean1');
@@ -291,7 +295,7 @@ class gamePlay extends Phaser.Scene
         this.room4platform5.body.setAllowGravity(false);
         this.room4platform5.body.setImmovable(true);
 
-        var offset = 240;
+        
         this.spikyp2 = new spikyPinkPrefab(this,2085,1960 - 410,'spiky2').setOrigin(0,1);
         this.room4platform6 = this.physics.add.sprite(2080,1960 - 390,'horizontal_platform').setOrigin(0,1);
         this.room4platform6.body.setAllowGravity(false);
@@ -410,8 +414,7 @@ class gamePlay extends Phaser.Scene
         this.cubeDoor2.body.setAllowGravity(false);
         this.cubeDoor2.body.setImmovable(true);
 
-
-        
+        this.physics.add.overlap(this.player, this.finish,this.FinishGame,null,this);
 
 
         this.physics.add.collider(this.player, this.platform);
@@ -587,11 +590,17 @@ class gamePlay extends Phaser.Scene
         this.RespawnSound = this.sound.add('RespawnSound');
 
         this.RespawnSound.play();
-        this.levels = 1;
+        this.levels = 4;
         this.canDamage = true;
         this.playMusic = false;
 
         this.animationOnGoing = true;
+    }
+
+    FinishGame()
+    {
+        this.GameplayTheme.stop();
+        this.scene.start('WinScene');
     }
 
     ChangeScene()
@@ -1006,6 +1015,7 @@ class gamePlay extends Phaser.Scene
                 this.playMusic = true;
             }
             this.powerup.anims.play('powerup_anim',true);
+            this.finish.anims.play('powerup_anim', true);
 
         if (this.cursores.left.isUp) 
         {
@@ -1113,6 +1123,10 @@ class gamePlay extends Phaser.Scene
         else if(this.levels == 4)
         {
             this.cameras.main.setBounds(1980,0, 200, config.height);
+        }   
+        else if(this.levels == 5)
+        {
+            this.cameras.main.setBounds(0,0, config.width, config.height);
         }   
         
         
